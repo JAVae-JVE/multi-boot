@@ -36,5 +36,5 @@ public interface SysPermissionServiceI {
 	 * @param permissions
 	 * @return List
 	 */
-	public List<SysPermission> findMenus(String userId);
+	public List<SysPermission> findMenus(Set<String> permissions);
 }

@@ -42,7 +42,8 @@ public class IndexController {
 	@RequestMapping("/")
 	public String indexPage(Model model) {
 		Subject currentUser = SecurityUtils.getSubject();
-		List<SysPermission> menus = permissionService.findMenus(currentUser.getPrincipal().toString());
+		Set<String> permissions = userService.findPermissions(currentUser.getPrincipal().toString());
+		List<SysPermission> menus = permissionService.findMenus(permissions);
 		model.addAttribute("menus", menus);
 		return "index";
 	}
