@@ -13,8 +13,7 @@ import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinmark.core.Constants;
 /**
  * websocket处理类
@@ -50,10 +49,11 @@ public class MyWebSocketHandler implements WebSocketHandler {
 	public void handleMessage(WebSocketSession session,
 			WebSocketMessage<?> message) throws Exception {
 		if(message.getPayloadLength() == 0)return;
-		Message msg = JSON.parseObject(message.getPayload().toString(), Message.class);
+		ObjectMapper mapper = new ObjectMapper(); 
+		Message msg = mapper.readValue(message.getPayload().toString(), Message.class);
 		msg.setDate(new Date());//消息接收時間
 		//服务器接收到发送者消息，转发给接收者
-		sendMessageToUser(msg.getTo(), new TextMessage(JSON.toJSONStringWithDateFormat(msg,"yyyy-MM-dd HH:mm:ss", SerializerFeature.DisableCircularReferenceDetect)));
+		sendMessageToUser(msg.getTo(), new TextMessage(mapper.writeValueAsString(msg)));
 	}
 
 	

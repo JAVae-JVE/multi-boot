@@ -1,6 +1,6 @@
 package com.jinmark.core.bean;
 
-public class Response {
+public class Response<T> {
 	/**
 	 * 返回状态true：成功；false：失败
 	 */
@@ -12,7 +12,7 @@ public class Response {
 	/**
 	 * 返回数据
 	 */
-	private Object result;
+	private T result;
 	
 	
 	
@@ -33,7 +33,7 @@ public class Response {
 	}
 
 
-	public Response(boolean success, String msg, Object result) {
+	public Response(boolean success, String msg, T result) {
 		this(success, msg);
 		this.result = result;
 	}
@@ -49,10 +49,10 @@ public class Response {
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-	public Object getResult() {
+	public T getResult() {
 		return result;
 	}
-	public void setResult(Object result) {
+	public void setResult(T result) {
 		this.result = result;
 	}
 	

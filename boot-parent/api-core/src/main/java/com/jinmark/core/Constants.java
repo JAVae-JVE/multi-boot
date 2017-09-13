@@ -28,10 +28,6 @@ public class Constants {
 	 * 验证码
 	 */
 	public static final String CODE_KEY = "code";
-	/**
-	 * 
-	 */
-	public static final String CURRENT_USER = "current_user";
 	
 	/**
 	 * 文件上传原图保存目录mnt(linux) MHW(win)
@@ -58,30 +54,6 @@ public class Constants {
 	public static final String PIC_URL = "/uploadFile/";
 	
 	
-	/**
-	 * 微信登录
-	 */
-	public static final String WC = "wc";
-	/**
-	 * 验证码登录
-	 */
-	public static final String VL = "vl";
-	/**
-	 * 密码登录
-	 */
-	public static final String PL = "pl";
-	/**
-	 * 案例
-	 */
-	public static final String CSAE = "case";
-	/**
-	 * 设计师
-	 */
-	public static final String DESIGNER = "designer";
-	/**
-	 * 专题
-	 */
-	public static final String SUBJECT = "subject";
 	
 	/**
 	 * 正则表达式：验证手机号
@@ -89,7 +61,7 @@ public class Constants {
 	public static final String REGEX_MOBILE = "^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\\d{8}$";
 	
 	
-	public static enum Status {
+	/*public static enum Status {
         ONE("待分单"), TWO("待接单"),THREE("已接单"), FOUR("已完成"),FIVE("关闭");
 
         private final String info;
@@ -100,7 +72,7 @@ public class Constants {
         public String getInfo() {
             return info;
         }
-    }
+    }*/
 	
 	/*public static void main(String[] args) {
 		System.out.println(Status.THREE.getInfo());

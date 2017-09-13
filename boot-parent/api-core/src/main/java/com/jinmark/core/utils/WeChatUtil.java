@@ -14,15 +14,16 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.taskdefs.condition.Os;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.api.core.bean.weChat.AccessTokenResponse;
-import com.api.core.bean.weChat.JsapiTicketResponse;
-import com.api.core.bean.weChat.OpenIdResponse;
-import com.api.core.bean.weChat.WeChatUserInfo;
-import com.api.core.bean.weChat.templateMessage.WechatTemplate;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.jinmark.core.bean.weChat.AccessTokenResponse;
+import com.jinmark.core.bean.weChat.JsapiTicketResponse;
+import com.jinmark.core.bean.weChat.OpenIdResponse;
+import com.jinmark.core.bean.weChat.WeChatUserInfo;
+import com.jinmark.core.bean.weChat.templateMessage.WechatTemplate;
 
 /**
  * 微信工具类
@@ -139,7 +140,8 @@ public class WeChatUtil {
 			jsapiTicketJson = HttpClientUtils.get("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + getAccessToken() + "&type=jsapi");
 			
 			if(StringUtils.isNotBlank(jsapiTicketJson)) {
-				JsapiTicketResponse jsapiTicketResponse = JSON.parseObject(jsapiTicketJson, JsapiTicketResponse.class);
+				ObjectMapper mapper = new ObjectMapper();
+				JsapiTicketResponse jsapiTicketResponse = mapper.readValue(jsapiTicketJson, JsapiTicketResponse.class);
 				if(jsapiTicketResponse != null && StringUtils.isNotBlank(jsapiTicketResponse.getTicket())) {
 					jsapi_ticket = jsapiTicketResponse.getTicket();
 				}
@@ -165,7 +167,8 @@ public class WeChatUtil {
 			accessTokenJson = HttpClientUtils.get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+ APPID +"&secret=" + APPSECRET);
 			
 			if(StringUtils.isNotBlank(accessTokenJson)) {
-				AccessTokenResponse accessTokenResponse = JSON.parseObject(accessTokenJson, AccessTokenResponse.class);
+				ObjectMapper mapper = new ObjectMapper();
+				AccessTokenResponse accessTokenResponse = mapper.readValue(accessTokenJson, AccessTokenResponse.class);
 				if(accessTokenResponse != null && StringUtils.isNotBlank(accessTokenResponse.getAccess_token())) {
 					access_token = accessTokenResponse.getAccess_token();
 				}
@@ -194,7 +197,8 @@ public class WeChatUtil {
 			openIdJson = HttpClientUtils.get("https://api.weixin.qq.com/sns/oauth2/access_token?appid="+ APPID +"&secret="+ APPSECRET +"&code="+ code +"&grant_type=authorization_code");
 		
 			if(StringUtils.isNotBlank(openIdJson)) {
-				OpenIdResponse openIdResponse = JSON.parseObject(openIdJson, OpenIdResponse.class);
+				ObjectMapper mapper = new ObjectMapper();
+				OpenIdResponse openIdResponse = mapper.readValue(openIdJson, OpenIdResponse.class);
 				if(openIdResponse != null && StringUtils.isNotBlank(openIdResponse.getOpenid())) {
 					openId = openIdResponse.getOpenid();
 				}
@@ -280,34 +284,40 @@ public class WeChatUtil {
 		String bi = null;
 		try {
 			bi = HttpClientUtils.get("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+ access_token +"&openid="+ openid +"&lang=zh_CN");
+			ObjectMapper mapper = new ObjectMapper();
+			WeChatUserInfo weChatUserInfo = mapper.readValue(bi, WeChatUserInfo.class);
+			return weChatUserInfo;
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return bi == null ? null : JSON.parseObject(bi, WeChatUserInfo.class);
+		return null;
 	}
 	
 	/**
 	 * ********************发送模板消息***********************
 	 * @param wechatTemplate
 	 * @return void
+	 * @throws IOException 
 	 */
-	public static void sendTemplateMessage(WechatTemplate wechatTemplate) {
+	public static void sendTemplateMessage(WechatTemplate wechatTemplate) throws IOException {
 		if(wechatTemplate != null) {
 			String access_token = getAccessToken();
 			if(StringUtils.isNotBlank(access_token)) {
 				String url = SEND_TEMPLATE_MSG_URL.substring(0, SEND_TEMPLATE_MSG_URL.indexOf("ACCESS_TOKEN")) + access_token;
 				logger.info("url------->" + url); 
-				String result = HttpClientUtils.post(url, JSON.toJSONString(wechatTemplate));
-				logger.info("result------->" + result);  
-				JSONObject jsonObject = JSON.parseObject(result);
-				if (null != jsonObject) {  
-			        int errorCode = jsonObject.getIntValue("errcode");         
+				ObjectMapper mapper = new ObjectMapper();
+				String result = HttpClientUtils.post(url, mapper.writeValueAsString(wechatTemplate));
+				logger.info("result------->" + result);
+				JsonNode jsonNode = mapper.readValue(result, JsonNode.class);
+				//JSONObject jsonObject = JSON.parseObject(result);
+				if (null != jsonNode) {  
+			        int errorCode = jsonNode.get("errcode").asInt();         
 			        if (0 == errorCode) {  
 			            logger.info("模板消息发送成功");  
 			        } else {  
-			            String errorMsg = jsonObject.getString("errmsg");  
+			            String errorMsg = jsonNode.get("errmsg").asText();  
 			            logger.info("模板消息发送失败,错误是 "+errorCode+",错误信息是"+ errorMsg);  
 			        }  
 			    }  
