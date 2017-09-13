@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Amaze UI Admin index Examples</title>
+    <meta name="description" content="这是一个 index 页面" />
+    <meta name="keywords" content="index" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}" />
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}" />
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+</head>
+
+<body class="theme-black">
+    <div class="am-g tpl-g">
+    	<!-- 头部 -->
+        <div th:replace="fragments/header :: header">Header</div>
+        
+        <!-- 风格切换 -->
+		<!-- <div th:replace="fragments/skiner :: skiner">skiner</div> -->
+        <!-- 侧边导航栏 -->
+        <div th:replace="fragments/left :: left">left</div>
+        
+        <!-- 内容区域 -->
+        <iframe id="content_" class="iframe_content" th:src="@{/home}"></iframe>
+      
+        
+    </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/amazeui.min.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+
+</body>
+
+</html>
