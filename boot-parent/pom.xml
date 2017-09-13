@@ -172,5 +172,6 @@
 	</build>
 	<modules>
 		<module>api-core</module>
+		<module>jmk-sys</module>
 	</modules>
 </project>
