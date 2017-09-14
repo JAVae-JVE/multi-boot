@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.jinmark.sys.domain.SysPermission;
+import com.jinmark.sys.domain.SysUser;
 import com.jinmark.sys.repository.SysPermissionRepository;
 import com.jinmark.sys.service.permission.SysPermissionServiceI;
 
@@ -35,24 +36,25 @@ public class SysPermissionServiceImpl implements SysPermissionServiceI {
 	     return permissions;
 	}
 
-	@Override
+
+	/*@Override
 	public List<SysPermission> findMenus(Set<String> permissions) {
 		List<SysPermission> allMenus = findAllMenus();
         List<SysPermission> menus = new ArrayList<SysPermission>();
         for(SysPermission menu : allMenus) {
-            /*if(StringUtils.isEmpty(menu.getParentMenu())) {
+            if(StringUtils.isEmpty(menu.getParentMenu())) {
                 continue;
             }
             if(menu.getType() != Constants.ResourceType.menu.getInfo()) {
                 continue;
-            }*/
+            }
             if(!hasPermission(permissions, menu)) {
                 continue;
             }
             menus.add(menu);
         }
         return menus;
-	}
+	}*/
 	/**
 	 * 是否有权限
 	 * @Description: TODO
@@ -64,7 +66,7 @@ public class SysPermissionServiceImpl implements SysPermissionServiceI {
 	 * @author qinchuan
 	 * @date 2016-9-7 下午7:14:44
 	 */
-	private boolean hasPermission(Set<String> permissions, SysPermission menu) {
+	/*private boolean hasPermission(Set<String> permissions, SysPermission menu) {
         if(StringUtils.isEmpty(menu.getPermission())) {
             return true;
         }
@@ -76,13 +78,13 @@ public class SysPermissionServiceImpl implements SysPermissionServiceI {
             }
         }
         return false;
-    }
+    }*/
 
 
-	@Override
+	/*@Override
 	public SysPermission findOne(String menuId) {
 		return permissionRepository.findOne(menuId);
-	}
+	}*/
 
 	/*@Override
 	public List<SysPermission> findAllRoot() {
@@ -98,9 +100,6 @@ public class SysPermissionServiceImpl implements SysPermissionServiceI {
 		return parentMenus;
 	}*/
 
-	@Override
-	public List<SysPermission> findAllMenus() {
-		return permissionRepository.findByAvailable(true);
-	}
+	
 
 }

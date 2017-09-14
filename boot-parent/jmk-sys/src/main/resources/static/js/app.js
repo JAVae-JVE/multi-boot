@@ -67,7 +67,11 @@ $('.sidebar-nav-sub-title').on('click', function() {
  * @returns
  */
 function loadContent(menu) {
-	$("#content_").attr("src", $(menu).attr("url"));
+	var url = $(menu).attr("url");
+	if(url == null || url == '') {
+		return ;
+	}
+	$("#content_").attr("src", url);
 	$(".left-sidebar").find("a").removeClass("active").removeClass("sub-active");
 	if($(menu).parent().parent().hasClass("sidebar-nav-sub")) {//二级菜单
 		$(menu).parent().parent().prev("a").addClass("active");

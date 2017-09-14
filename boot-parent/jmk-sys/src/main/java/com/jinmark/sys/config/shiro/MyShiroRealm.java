@@ -17,8 +17,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
-
-import com.jinmark.sys.consist.Constants;
 import com.jinmark.sys.domain.SysUser;
 import com.jinmark.sys.service.permission.SysUserServiceI;
 
@@ -97,7 +95,6 @@ public class MyShiroRealm extends AuthorizingRealm {
                 ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
                 getName()  //realm name
         );
-        this.setSession(Constants.CURRENT_USER, user);
         return authenticationInfo;
 	}
 	
@@ -105,7 +102,7 @@ public class MyShiroRealm extends AuthorizingRealm {
      * 将一些数据放到ShiroSession中,以便于其它地方使用 
      * @see  比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到 
      */  
-    private void setSession(Object key, Object value){  
+    /*private void setSession(Object key, Object value){  
         Subject currentUser = SecurityUtils.getSubject();  
         if(null != currentUser){  
             Session session = currentUser.getSession();  
@@ -114,6 +111,6 @@ public class MyShiroRealm extends AuthorizingRealm {
                 session.setAttribute(key, value);  
             }  
         }  
-    }  
+    }  */
 
 }

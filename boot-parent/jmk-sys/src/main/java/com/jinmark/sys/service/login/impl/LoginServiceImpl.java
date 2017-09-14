@@ -9,6 +9,7 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinmark.core.Constants;
+import com.jinmark.core.bean.Response;
 import com.jinmark.sys.config.shiro.PasswordHelper;
-import com.jinmark.sys.consist.Constants;
 import com.jinmark.sys.domain.SysUser;
 import com.jinmark.sys.repository.SysUserRepository;
 import com.jinmark.sys.service.login.LoginServiceI;
-import com.jinmark.sys.vo.Response;
 
 @Service
 @Transactional(readOnly = true)
@@ -45,11 +46,13 @@ public class LoginServiceImpl implements LoginServiceI {
 			logger.info("为了验证登录用户而封装的token为" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
 			//获取当前的Subject
 		    Subject currentUser = SecurityUtils.getSubject();
+		    Session session = currentUser.getSession();
 		    //在调用了login方法后,SecurityManager会收到AuthenticationToken,并将其发送给已配置的Realm执行必须的认证检查
 		    //每个Realm都能在必要时对提交的AuthenticationTokens作出反应
 		    //所以这一步在调用login(token)方法时,它会走到MyRealm.doGetAuthenticationInfo()方法中,具体验证方式详见此方法
 		    try {
 		    	currentUser.login(token);
+		    	session.setAttribute(Constants.CURRENT_USER, user);
 		    	res.setSuccess(true);
 			}catch(UnknownAccountException uae){
 				uae.printStackTrace();
@@ -74,7 +77,7 @@ public class LoginServiceImpl implements LoginServiceI {
 		    }
 		    if(!res.isSuccess() || !currentUser.isAuthenticated()) {
 		    	token.clear();
-		    	currentUser.getSession().removeAttribute(Constants.CURRENT_USER);
+		    	session.removeAttribute(Constants.CURRENT_USER);
 		    }
 		}
 		return res;

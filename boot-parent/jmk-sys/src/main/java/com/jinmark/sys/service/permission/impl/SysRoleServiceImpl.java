@@ -1,13 +1,18 @@
 package com.jinmark.sys.service.permission.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jinmark.core.Constants.ResType;
+import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysRole;
 import com.jinmark.sys.domain.SysRolePermission;
 import com.jinmark.sys.repository.SysRolePermissionRepository;
@@ -56,6 +61,38 @@ public class SysRoleServiceImpl implements SysRoleServiceI {
 	}
 
 	@Override
+	public List<SysPermission> findMenus(String[] roleIds) {
+		List<SysPermission> rootMenus = new ArrayList<SysPermission>();
+		List<SysPermission> menus = new ArrayList<SysPermission>();
+		List<SysRole> r = roleRepository.findAll(Arrays.asList(roleIds));
+		if(null != r && r.size() > 0) {
+			for (SysRole sysRole : r) {
+				Set<SysRolePermission> rp = sysRole.getSysRolePermissions();
+				for (SysRolePermission sysRolePermission : rp) {
+					if(ResType.MENU.getInfo().equals(sysRolePermission.getSysPermission().getResourceType())) {
+						menus.add(sysRolePermission.getSysPermission());
+						if(StringUtils.isBlank(sysRolePermission.getSysPermission().getParentId())) {
+							rootMenus.add(sysRolePermission.getSysPermission());
+						}
+					}
+				}
+			}
+		}
+		
+		for (SysPermission rm : rootMenus) {
+			List<SysPermission> children = new ArrayList<SysPermission>();
+			for (SysPermission m : menus) {
+				if(rm.getId().equals(m.getParentId())) {
+					children.add(m);
+				}
+			}
+			
+			rm.setChildren(children);
+		}
+		return rootMenus;
+	}
+
+	/*@Override
 	public SysRole findOne(String roleId) {
 		return roleRepository.findOne(roleId);
 	}
@@ -63,7 +100,7 @@ public class SysRoleServiceImpl implements SysRoleServiceI {
 	@Override
 	public List<SysRole> findAllRoles() {
 		return roleRepository.findByAvailable(true);
-	}
+	}*/
 
 	/*@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@Override

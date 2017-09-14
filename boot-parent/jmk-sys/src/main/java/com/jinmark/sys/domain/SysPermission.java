@@ -2,6 +2,8 @@ package com.jinmark.sys.domain;
 // Generated 2017-4-13 17:12:14 by Hibernate Tools 4.0.0
 
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -32,6 +35,10 @@ public class SysPermission implements java.io.Serializable {
 	private boolean available;
 	private Integer priority;
 	private Date createtime;
+	
+	private String iconClass;
+	
+	private List<SysPermission> children;
 
 	public SysPermission() {
 	}
@@ -140,6 +147,24 @@ public class SysPermission implements java.io.Serializable {
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
+	
+	@Column(name = "icon_class")
+	public String getIconClass() {
+		return iconClass;
+	}
 
+	public void setIconClass(String iconClass) {
+		this.iconClass = iconClass;
+	}
 
+	@Transient
+	public List<SysPermission> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<SysPermission> children) {
+		this.children = children;
+	}
+
+	
 }

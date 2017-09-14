@@ -18,33 +18,16 @@
          </div> -->
 
          <!-- 菜单 -->
-         <ul class="sidebar-nav" th:each="menu,menuStat : ${menus}">
-            
-             <li class="sidebar-nav-link">
-                 <a href="javascript:;" url="/home" onclick="loadContent(this);">
-                     <i class="am-icon-home sidebar-nav-link-logo"></i> 首页
+         <ul class="sidebar-nav">
+             <li class="sidebar-nav-link" th:each="menu : ${menus}">
+                 <a href="javascript:;" th:attr="url=${menu.url}" onclick="loadContent(this);" th:class="${not #lists.isEmpty(menu.children)} ? 'sidebar-nav-sub-title'">
+                     <i class="am-icon-home sidebar-nav-link-logo"></i> <span th:text="${menu.name}"></span>
+                     <span th:if="${not #lists.isEmpty(menu.children)}" class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                  </a>
-             </li>
-             <li class="sidebar-nav-link">
-                 <a href="javascript:;" class="sidebar-nav-sub-title">
-                     <i class="am-icon-table sidebar-nav-link-logo"></i> 权限管理
-                     <span class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
-                 </a>
-                 <ul class="sidebar-nav sidebar-nav-sub">
-                     <li class="sidebar-nav-link">
-                         <a href="javascript:;" url="/table-list.html" onclick="loadContent(this);">
-                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 用户${request}
-                         </a>
-                     </li>
-
-                     <li class="sidebar-nav-link">
-                         <a href="javascript:;" url="/table-list.html" onclick="loadContent(this);">
-                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 角色
-                         </a>
-                     </li>
-                     <li class="sidebar-nav-link">
-                         <a href="javascript:;" url="/table-list.html" onclick="loadContent(this);">
-                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 资源
+                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(menu.children)}">
+                 	<li class="sidebar-nav-link" th:each="child : ${menu.children}">
+                         <a href="javascript:;" th:attr="url=${child.url}" onclick="loadContent(this);">
+                             <span class="am-icon-angle-right sidebar-nav-link-logo"></span> <span th:text="${child.name}"></span>
                          </a>
                      </li>
                  </ul>

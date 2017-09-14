@@ -3,19 +3,19 @@ package com.jinmark.sys.service.permission.impl;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jinmark.sys.config.shiro.PasswordHelper;
+import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysUser;
 import com.jinmark.sys.domain.SysUserRole;
 import com.jinmark.sys.repository.SysUserRepository;
 import com.jinmark.sys.service.permission.SysRoleServiceI;
 import com.jinmark.sys.service.permission.SysUserServiceI;
-import com.jinmark.sys.vo.Response;
 
 @Service
 @Transactional(readOnly = true)
@@ -66,10 +66,21 @@ public class SysUserServiceImpl implements SysUserServiceI {
 		return roleService.findPerssions(roleIds.toArray(new String[0]));
 	}
 
-	@Transactional(readOnly = false)
+	@Override
+	public List<SysPermission> findMenus(String username) {
+		SysUser user =findByUsername(username);
+        if(user == null) {
+            return Collections.emptyList();
+        }
+        
+        Set<String> roleIds = findRoleIdsByUser(user);
+		return roleService.findMenus(roleIds.toArray(new String[0]));
+	}
+
+	/*@Transactional(readOnly = false)
 	@Override
 	public Response saveUser(String username, String password) {
-		Response out = null;
+		Response out = null;*/
 		/*try {*/
 			/*if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)){
 				out = new Response(false, "账号或");
@@ -103,7 +114,7 @@ public class SysUserServiceImpl implements SysUserServiceI {
 			e.printStackTrace();
 			out.setResult(new Result("300", MessageUtils.getValue("MSG0001")));
 		}*/
-			SysUser user = new SysUser();
+		/*	SysUser user = new SysUser();
 			user.setCreatetime(new Date());
 			user.setLocked(false);
 			user.setMobile("13699454591");
@@ -113,7 +124,7 @@ public class SysUserServiceImpl implements SysUserServiceI {
 			PasswordHelper.encryptPassword(user);
 			userRepository.save(user);
 		return null;
-	}
+	}*/
 
 	/*private boolean isUniquePhone(String phoneNum) {
 		SysUser user = new SysUser();

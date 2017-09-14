@@ -1,9 +1,9 @@
 package com.jinmark.sys.service.permission;
 
+import java.util.List;
 import java.util.Set;
-
+import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysUser;
-import com.jinmark.sys.vo.Response;
 
 
 public interface SysUserServiceI {
@@ -41,12 +41,22 @@ public interface SysUserServiceI {
 	 */
 	public Set<String> findPermissions(String username);
 	/**
+	 * 
+	 * @Title findMenus
+	 * @Description TODO(根据用户名查找其能够访问的菜单) 
+	 * @param username
+	 * @return
+	 * @return List<SysPermission>  返回类型 
+	 * @throws
+	 */
+	public List<SysPermission> findMenus(String username);
+	/**
 	 * 保存新增用户
 	 * @param username
 	 * @param password
 	 * @return Response
 	 */
-	public Response saveUser(String username, String password);
+	//public Response saveUser(String username, String password);
 	/**
 	 * 根据不同条件查询用户列表
 	 * @Description: TODO 

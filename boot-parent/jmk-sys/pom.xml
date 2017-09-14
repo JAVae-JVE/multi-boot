@@ -6,4 +6,13 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>jmk-sys</artifactId>
+  
+  <dependencies>
+  	<dependency>
+  		<groupId>com.jinmark</groupId>
+	    <artifactId>api-core</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
+  
 </project>

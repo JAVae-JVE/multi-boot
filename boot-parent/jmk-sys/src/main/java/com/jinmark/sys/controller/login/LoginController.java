@@ -11,9 +11,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.jinmark.core.bean.Response;
 import com.jinmark.sys.service.login.LoginServiceI;
 import com.jinmark.sys.vo.LoginRequest;
-import com.jinmark.sys.vo.Response;
 
 @Controller
 public class LoginController {

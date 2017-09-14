@@ -3,6 +3,7 @@ package com.jinmark.sys.service.permission;
 import java.util.List;
 import java.util.Set;
 
+import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysRole;
 
 
@@ -12,7 +13,7 @@ public interface SysRoleServiceI {
 	 * @param roleId
 	 * @return SysRole
 	 */
-	public SysRole findOne(String roleId);
+	//public SysRole findOne(String roleId);
 	/**
 	 * 根据角色编号得到角色标识符列表
 	 * @param roleIds
@@ -26,11 +27,21 @@ public interface SysRoleServiceI {
 	 */
 	Set<String> findPerssions(String[] roleIds);
 	/**
+	 * 
+	 * @Title findMenus
+	 * @Description TODO(根据角色ids获取能够访问的菜单) 
+	 * @param roleIds
+	 * @return
+	 * @return List<SysPermission>  返回类型 
+	 * @throws
+	 */
+	List<SysPermission> findMenus(String[] roleIds);
+	/**
 	 * 获取所有启用的角色
 	 * @return
 	 * @return List<SysRole>
 	 */
-	public List<SysRole> findAllRoles();
+	//public List<SysRole> findAllRoles();
 	/**
 	 * 查询角色
 	 * @Description: TODO

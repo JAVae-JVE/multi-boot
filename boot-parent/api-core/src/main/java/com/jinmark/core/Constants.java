@@ -21,6 +21,10 @@ public class Constants {
 	 */
 	public static final String TOKEN_KEY = "token_key";
 	/**
+	 * 当前登录用户标识
+	 */
+	public static final String CURRENT_USER = "current_user";
+	/**
 	 * 电话号码
 	 */
 	public static final String MOBILE = "mobile";
@@ -59,7 +63,25 @@ public class Constants {
 	 * 正则表达式：验证手机号
 	 */
 	public static final String REGEX_MOBILE = "^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9])\\d{8}$";
-	
+	/**
+	 * 
+	 * @author QC
+	 * @ClassName ResType
+	 * @Description TODO(菜单资源类型) 
+	 * @date 2017年9月14日下午2:11:50
+	 */
+	public static enum ResType {
+        MENU("menu"), BUTTON("button");
+
+        private final String info;
+        private ResType(String info) {
+            this.info = info;
+        }
+
+        public String getInfo() {
+            return info;
+        }
+    }
 	
 	/*public static enum Status {
         ONE("待分单"), TWO("待接单"),THREE("已接单"), FOUR("已完成"),FIVE("关闭");

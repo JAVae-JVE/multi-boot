@@ -1,6 +1,7 @@
 package com.jinmark.sys.service.login;
 
-import com.jinmark.sys.vo.Response;
+import com.jinmark.core.bean.Response;
+
 /**
  * 
  * @author QC
