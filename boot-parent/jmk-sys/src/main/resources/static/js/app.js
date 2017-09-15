@@ -59,8 +59,12 @@ $('.sidebar-nav-sub-title').on('click', function() {
     $(this).siblings('.sidebar-nav-sub').slideToggle(80)
         .end()
         .find('.sidebar-nav-sub-ico').toggleClass('sidebar-nav-sub-ico-rotate');
-})
+});
 
+//返回上个页面
+$('.go_history').on('click', function() {
+	window.history.go(-1);
+});
 /**
  * 点击左侧菜单加载content内容
  * @param url

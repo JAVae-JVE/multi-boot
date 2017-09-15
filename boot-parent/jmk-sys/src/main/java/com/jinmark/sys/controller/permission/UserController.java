@@ -3,6 +3,8 @@ package com.jinmark.sys.controller.permission;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.jinmark.core.bean.Response;
 /**
  * 
  * @author QC
@@ -25,5 +27,24 @@ public class UserController {
 	@RequestMapping("/list")
 	public String userList(Model model) {
 		return "permission/user/user_view";
+	}
+	
+	/**
+	 * 
+	 * @Title userAddOrEdit
+	 * @Description TODO(新增或编辑用户页面) 
+	 * @param model
+	 * @param userId
+	 * @return
+	 * @return String  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/add_or_edit")
+	public String userAddOrEdit(String userId, Model model) {
+		return "permission/user/user_form";
+	}
+	
+	public Response userSaveOrUpdate() {
+		return null;
 	}
 }
