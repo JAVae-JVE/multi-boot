@@ -44,7 +44,16 @@ public class UserController {
 		return "permission/user/user_form";
 	}
 	
-	public Response userSaveOrUpdate() {
-		return null;
+	/**
+	 * 
+	 * @Title pswdSetting
+	 * @Description TODO(密码设置页面) 
+	 * @return
+	 * @return String  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/pswd_setting")
+	public String pswdSetting() {
+		return "permission/user/pswd_setting";
 	}
 }

@@ -2,6 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+	<script type="text/javascript">
+		if(top.location != self.location){  
+	        top.location = "login_page";  
+	    }
+	</script>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <title>金码客[后台管理系统]</title>
@@ -16,7 +21,6 @@
     <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
     <link rel="stylesheet" th:href="@{/css/amazeui.datatables.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}"/>
-
 </head>
 
 <body class="theme-white">

@@ -26,4 +26,19 @@ public class PermissionController {
 	public String permList(Model model) {
 		return "permission/perm/perm_view";
 	}
+	
+	/**
+	 * 
+	 * @Title permAddOrEdit
+	 * @Description TODO(新增或编辑菜单页面) 
+	 * @param permId
+	 * @param model
+	 * @return
+	 * @return String  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/add_or_edit")
+	public String permAddOrEdit(String permId, Model model) {
+		return "permission/perm/perm_form";
+	}
 }

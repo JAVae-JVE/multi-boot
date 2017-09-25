@@ -59,6 +59,14 @@ $('.sidebar-nav-sub-title').on('click', function() {
     $(this).siblings('.sidebar-nav-sub').slideToggle(80)
         .end()
         .find('.sidebar-nav-sub-ico').toggleClass('sidebar-nav-sub-ico-rotate');
+    var plus = $(this).find('.sidebar-nav-sub-ico-plus');
+    if($(plus).hasClass("am-icon-plus-square-o")) {
+    	$(plus).removeClass("am-icon-plus-square-o");
+    	$(plus).addClass("am-icon-minus-square-o");
+    } else {
+    	$(plus).removeClass("am-icon-minus-square-o");
+    	$(plus).addClass("am-icon-plus-square-o");
+    } 
 });
 
 //返回上个页面
@@ -83,4 +91,94 @@ function loadContent(menu) {
 	}else {//一级菜单
 		$(menu).addClass("active");
 	}
+}
+
+/**
+ * iframe内部的页面跳转
+ * @param url
+ * @returns
+ */
+function jumpUrl(url) {
+	$('#content_', parent.document).attr("src", url);
+}
+
+/**
+ * 全局后台返回成功或失败的alert
+ * @param success
+ * @param msg
+ * @returns
+ */
+function SweetAlert(success, msg) {
+	if(success) {
+		swal({
+			text: msg,
+			icon: "success",
+			button: false,
+			timer: 2000
+		});
+	} else {
+		swal({
+			text: msg,
+			icon: "error",
+			closeOnClickOutside: false,
+			button: {
+			    text: "确定"
+			}
+			
+		});
+	}
+	
+}
+
+/**
+ * 警告提示
+ * @param msg
+ * @returns
+ */
+function SweetWarning(msg) {
+	swal({
+		text: msg,
+		icon: "warning",
+		closeOnClickOutside: false,
+		button: {
+		    text: "确定"
+		}
+		
+	});
+}
+
+
+/**
+ * 
+ * @param msg
+ * @param nextMethod
+ * @returns
+ */
+function SweetComfirm(msg, nextMethod) {
+	swal({
+		text: msg,
+		icon: "warning",
+		dangerMode: true,
+		closeOnClickOutside: false,
+		buttons: {
+			cancel: {
+			    text: "取消",
+			    value: false,
+			    visible: true,
+			    className: "",
+			    closeModal: true,
+			 },
+			 confirm: {
+			    text: "确定",
+			    value: true,
+			    visible: true,
+			    className: "",
+			    closeModal: true
+			  }
+		}
+	}).then((value) => {
+		  if (value) {
+			  nextMethod();
+		  }
+	});
 }

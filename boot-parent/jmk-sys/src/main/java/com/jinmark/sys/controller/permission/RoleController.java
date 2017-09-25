@@ -27,4 +27,34 @@ public class RoleController {
 	public String roleList(Model model) {
 		return "permission/role/role_view";
 	}
+	
+	/**
+	 * 
+	 * @Title roleAddOrEdit
+	 * @Description TODO(新增或编辑角色页面) 
+	 * @param roleId
+	 * @param model
+	 * @return
+	 * @return String  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/add_or_edit")
+	public String roleAddOrEdit(String roleId, Model model) {
+		return "permission/role/role_form";
+	}
+	
+	/**
+	 * 
+	 * @Title grantPage
+	 * @Description TODO(授权页面) 
+	 * @param roleId
+	 * @param model
+	 * @return
+	 * @return String  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/grant_page")
+	public String grantPage(String roleId, Model model) {
+		return "permission/role/role_grant";
+	}
 }

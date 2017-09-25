@@ -14,53 +14,44 @@
     <link rel="icon" type="image/png" th:href="@{/i/favicon.png}">
     <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}">
     <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-    
     <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
     <link rel="stylesheet" th:href="@{/css/amazeui.datatables.min.css}" />
-    
-    <link rel="stylesheet" th:href="@{/css/app.css}" />
-    
+    <link rel="stylesheet" th:href="@{/css/app.css}">
     <style type="text/css">
-    	a span {
-    		margin-right: 1rem;
+    	.am-checkbox {
+    		float: left;
     	}
     </style>
-
 </head>
 
 <body class="theme-white">
         <!-- 内容区域 -->
-    <div class="tpl-content-wrapper">
-        <div class="row-content am-cf">
-            <div class="row">
-                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-                    <div class="widget am-cf">
-                        <div class="widget-head am-cf">
-                            <div class="widget-title  am-cf">菜单列表</div>
-                        </div>
-                        <div class="widget-body  am-fr">
+        <div class="tpl-content-wrapper">
 
-                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
-                                <div class="am-form-group">
-                                    <div class="am-btn-toolbar">
-                                        <div class="am-btn-group am-btn-group-xs">
-                                            <button type="button" onclick="jumpUrl('perm/add_or_edit');" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="row-content am-cf">
+
+               
+                <div class="row">
+
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl">为《超级管理员》授权</div>
                             </div>
+                            <div class="widget-body am-fr">
 
-                            <div class="am-u-sm-12">
-	                            <div class="am-panel am-panel-default am-u-sm-12">
-								    <div class="am-panel-bd">
-								            <!-- 菜单 -->
-								            <ul class="sidebar-nav">
+                                <form class="am-form tpl-form-border-form tpl-form-border-br">
+                                    
+                                   <div class="am-panel am-panel-default am-u-sm-12">
+									    <div class="am-panel-bd">
+									    	<ul class="sidebar-nav">
 								                <li class="sidebar-nav-link">
 								                    <a href="javascript:;">
 								                    	<span class="am-icon-minus-square-o am-margin-right-sm"></span>
 								                        <i class="am-icon-home"></i> 首页
-														<span class="am-badge am-badge-danger am-fr">删除</span>
-														<span class="am-badge am-badge-secondary am-fr">编辑</span>
+								                        <label class="am-checkbox am-success" m_t="menu">
+														  <input type="checkbox" data-am-ucheck>
+														</label>
 								                    </a>
 								                </li>
 								                
@@ -68,8 +59,9 @@
 								                    <a href="javascript:;">
 								                    	<span class="am-icon-minus-square-o am-margin-right-sm"></span>
 								                        <i class="am-icon-home"></i> haha
-														<span class="am-badge am-badge-danger am-fr">删除</span>
-														<span onclick="editMenu();" class="am-badge am-badge-secondary am-fr">编辑</span>
+								                        <label class="am-checkbox am-success" m_t="menu">
+														  <input type="checkbox" data-am-ucheck>
+														</label>
 								                    </a>
 								                </li>
 								
@@ -77,33 +69,36 @@
 								                    <a href="javascript:;" class="sidebar-nav-sub-title">
 								                    	<span class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 								                        <i class="am-icon-table"></i> 权限管理
-								                        <span class="am-badge am-badge-danger am-fr">删除</span>
-														<span onclick="editMenu();" class="am-badge am-badge-secondary am-fr">编辑</span>
-								                        
+								                        <label class="am-checkbox am-success" m_t="menu">
+														  <input type="checkbox" data-am-ucheck>
+														</label>
 								                    </a>
 								                    <ul class="sidebar-nav sidebar-nav-sub">
 								                        <li class="sidebar-nav-link">
 								                            <a href="javascript:;" class="sidebar-nav-sub-title">
 								                            	<span class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 								                                <span class="am-icon-angle-right"></span> 用户
-								                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																<span class="am-badge am-badge-secondary am-fr">编辑</span>
+								                                <label class="am-checkbox am-success" m_t="menu">
+																  <input type="checkbox" data-am-ucheck>
+																</label>
 								                            </a>
 								                            <ul class="sidebar-nav sidebar-nav-sub">
 								                            	<li class="sidebar-nav-link">
 										                            <a href="javascript:;">
 										                            	<span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 										                                <span class="am-icon-angle-right"></span> 新增/编辑用户
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
+										                                <label class="am-checkbox am-success" m_t="button">
+																		  <input type="checkbox" data-am-ucheck>
+																		</label>
 										                            </a>
 										                        </li>
 										                        <li class="sidebar-nav-link">
 										                            <a href="javascript:;">
-										                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+										                            	<span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 										                                <span class="am-icon-angle-right"></span> 删除用户
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
+										                                <label class="am-checkbox am-success" m_t="button">
+																		  <input type="checkbox" data-am-ucheck>
+																		</label>
 										                            </a>
 										                        </li>
 								                            </ul>
@@ -113,8 +108,9 @@
 								                            <a href="javascript:;" class="sidebar-nav-sub-title">
 								                            	<span class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 								                                <span class="am-icon-angle-right"></span> 角色
-								                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																<span class="am-badge am-badge-secondary am-fr">编辑</span>
+								                                <label class="am-checkbox am-success" m_t="menu">
+																  <input type="checkbox" data-am-ucheck>
+																</label>
 								                            </a>
 								                            
 								                            <ul class="sidebar-nav sidebar-nav-sub">
@@ -122,16 +118,18 @@
 										                            <a href="javascript:;">
 										                            	<span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 										                                <span class="am-icon-angle-right"></span> 新增/编辑角色
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
+										                                <label class="am-checkbox am-success" m_t="button">
+																		  <input type="checkbox" data-am-ucheck>
+																		</label>
 										                            </a>
 										                        </li>
 										                        <li class="sidebar-nav-link">
 										                            <a href="javascript:;">
-										                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+										                            	<span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 										                                <span class="am-icon-angle-right"></span> 删除角色
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
+										                                <label class="am-checkbox am-success" m_t="button">
+																		  <input type="checkbox" data-am-ucheck>
+																		</label>
 										                            </a>
 										                        </li>
 								                            </ul>
@@ -139,33 +137,61 @@
 								                    </ul>
 								                </li>
 								            </ul>
-								        </div>
-								</div>
-								
-								<!-- <div class="am-panel am-panel-default am-u-sm-6">
-								    <div class="am-panel-bd">这是一个基本的面板组件。</div>
-								</div> -->
-                            
+									    
+									    </div>
+									</div>
+                                    
+                                    <div class="am-form-group">
+                                        <div class="am-u-sm-9 am-u-sm-push-3">
+                                        	<button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success go_history">取消</button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/amazeui.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/amazeui.datatables.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/dataTables.responsive.min.js}"></script>
-    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/amazeui.min.js}"></script>
+    <script th:src="@{/js/amazeui.datatables.min.js}"></script>
+    <script th:src="@{/js/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
 	<script type="text/javascript">
-	
-		function editMenu(){
-			
-			event.stopPropagation();
-		}
-		
+		$(function() {
+			$(".am-checkbox").click(function(event){
+				var check = $(this).find("input[type='checkbox']").is(":checked");
+				if($(this).attr("m_t") == 'menu') {
+					var ul = $(this).parent().next('ul');
+					var lastMenu = $(this).parent().parent().parent().prev("a");
+					if(ul.length > 0) {
+						if(check) {
+							$(ul).find("input[type='checkbox']").uCheck('check');
+						}else {
+							$(ul).find("input[type='checkbox']").uCheck('uncheck');
+						}
+					}
+					
+					if(lastMenu.length > 0) {
+						if(check) {
+							$(lastMenu).find("input[type='checkbox']").uCheck('check');
+						}
+					}
+				}else if($(this).attr("m_t") == 'button'){
+					var second_a = $(this).parent().parent().parent().prev("a");
+					if(check) {
+						$(second_a).find("input[type='checkbox']").uCheck('check');
+						$(second_a).parent().parent().prev("a").find("input[type='checkbox']").uCheck('check');
+					}
+					
+				}
+				
+				event.stopPropagation();
+			});
+		});
 	</script>
 </body>
 

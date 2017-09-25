@@ -14,181 +14,217 @@
     <link rel="icon" type="image/png" th:href="@{/i/favicon.png}">
     <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}">
     <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    
     <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
     <link rel="stylesheet" th:href="@{/css/amazeui.datatables.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/app.css}">
     
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    
+    <style type="text/css">
+    	label {
+    		margin-top: 0px;
+    	}
+    	.am-checkbox {
+    		min-height: 0rem;
+    		margin-top: 0px;
+    		margin-bottom: 0px;
+    	}
+    </style>
 
 </head>
 
 <body class="theme-white">
-
         <!-- 内容区域 -->
-        <div class="tpl-content-wrapper">
-            <div class="row-content am-cf">
-                <div class="row">
-                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-                        <div class="widget am-cf">
-                            <div class="widget-head am-cf">
-                                <div class="widget-title  am-cf">文章列表</div>
+    <div class="tpl-content-wrapper">
+        <div class="row-content am-cf">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title  am-cf">角色列表</div>
+                        </div>
+                        <div class="widget-body  am-fr">
 
-
-                            </div>
-                            <div class="widget-body  am-fr">
-
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
-                                    <div class="am-form-group">
-                                        <div class="am-btn-toolbar">
-                                            <div class="am-btn-group am-btn-group-xs">
-                                                <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
-                                                <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
-                                                <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
-                                                <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
-                                            </div>
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                <div class="am-form-group">
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button onclick="jumpUrl('role/add_or_edit');" type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
+                                           <!--  <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button> -->
+                                            <button type="button" onclick="jumpUrl('role/grant_page');" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 授权</button>
+                                            <button type="button" onclick="deleteRole();" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="am-u-sm-12 am-u-md-6 am-u-lg-3">
-                                    <div class="am-form-group tpl-table-list-select">
-                                        <select data-am-selected="{btnSize: 'sm'}">
-              <option value="option1">所有类别</option>
-              <option value="option2">IT业界</option>
-              <option value="option3">数码产品</option>
-              <option value="option3">笔记本电脑</option>
-              <option value="option3">平板电脑</option>
-              <option value="option3">只能手机</option>
-              <option value="option3">超极本</option>
-            </select>
-                                    </div>
-                                </div>
-                                <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
-                                    <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                                        <input type="text" class="am-form-field ">
-                                        <span class="am-input-group-btn">
-            <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
-          </span>
-                                    </div>
-                                </div>
+                            </div>
 
-                                <div class="am-u-sm-12">
-                                    <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
-                                        <thead>
-                                            <tr>
-                                                <th>文章标题</th>
-                                                <th>作者</th>
-                                                <th>时间</th>
-                                                <th>操作</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="gradeX">
-                                                <td>Amaze UI 模式窗口</td>
-                                                <td>张鹏飞</td>
-                                                <td>2016-09-26</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="even gradeC">
-                                                <td>有适配微信小程序的计划吗</td>
-                                                <td>天纵之人</td>
-                                                <td>2016-09-26</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="gradeX">
-                                                <td>请问有没有amazeui 分享插件</td>
-                                                <td>王宽师</td>
-                                                <td>2016-09-26</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="even gradeC">
-                                                <td>关于input输入框的问题</td>
-                                                <td>着迷</td>
-                                                <td>2016-09-26</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="even gradeC">
-                                                <td>有没有发现官网上的下载包不好用</td>
-                                                <td>醉里挑灯看键</td>
-                                                <td>2016-09-26</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                            <div class="am-u-sm-12">
+                                <table width="100%" class="am-table am-table-compact am-table-striped am-table-hover tpl-table-black " id="example-r">
+                                    <thead>
+                                        <tr>
+                                        	<th>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>全选
+												</label>
+                                        	</th>
+                                        	<th>序号</th>
+                                            <th>角色名称</th>
+                                            <th>角色标识符</th>
+                                            <th>角色描述</th>
+                                            <th>创建时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="gradeX">
+                                        	<td>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>
+												</label>
+                                        	</td>
+                                        	<td>1</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>2016-09-26</td>
+                                            <td>
+                                                <div class="tpl-table-black-operation">
+                                                    <a href="javascript:;" onclick="jumpUrl('role/add_or_edit');">
+                                                        <i class="am-icon-pencil"></i> 编辑
+                                                    </a>
+                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                        <i class="am-icon-trash"></i> 删除
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="even gradeC">
+                                        	<td>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>
+												</label>
+                                        	</td>
+                                        	<td>2</td>
+                                            <td>天纵之人</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>2016-09-26</td>
+                                            <td>
+                                                <div class="tpl-table-black-operation">
+                                                    <a href="javascript:;" onclick="jumpUrl('role/add_or_edit');">
+                                                        <i class="am-icon-pencil"></i> 编辑
+                                                    </a>
+                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                        <i class="am-icon-trash"></i> 删除
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="gradeX">
+                                        	<td>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>
+												</label>
+                                        	</td>
+                                        	<td>3</td>
+                                            <td>王宽师</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>2016-09-26</td>
+                                            <td>
+                                                <div class="tpl-table-black-operation">
+                                                    <a href="javascript:;" onclick="jumpUrl('role/add_or_edit');">
+                                                        <i class="am-icon-pencil"></i> 编辑
+                                                    </a>
+                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                        <i class="am-icon-trash"></i> 删除
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="even gradeC">
+                                        	<td>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>
+												</label>
+                                        	</td>
+                                        	<td>4</td>
+                                            <td>着迷</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>2016-09-26</td>
+                                            <td>
+                                                <div class="tpl-table-black-operation">
+                                                    <a href="javascript:;">
+                                                        <i class="am-icon-pencil"></i> 编辑
+                                                    </a>
+                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                        <i class="am-icon-trash"></i> 删除
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="even gradeC">
+                                        	<td>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>
+												</label>
+                                        	</td>
+                                        	<td>5</td>
+                                            <td>醉里挑灯看键</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>2016-09-26</td>
+                                            <td>
+                                                <div class="tpl-table-black-operation">
+                                                    <a href="javascript:;">
+                                                        <i class="am-icon-pencil"></i> 编辑
+                                                    </a>
+                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                        <i class="am-icon-trash"></i> 删除
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
 
-                                            <tr class="even gradeC">
-                                                <td>我建议WEB版本文件引入问题</td>
-                                                <td>罢了</td>
-                                                <td>2016-09-26</td>
-                                                <td>
-                                                    <div class="tpl-table-black-operation">
-                                                        <a href="javascript:;">
-                                                            <i class="am-icon-pencil"></i> 编辑
-                                                        </a>
-                                                        <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                            <i class="am-icon-trash"></i> 删除
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <!-- more data -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="am-u-lg-12 am-cf">
+                                        <tr class="even gradeC">
+                                        	<td>
+                                        		<label class="am-checkbox am-success">
+												  <input type="checkbox" value="" data-am-ucheck>
+												</label>
+                                        	</td>
+                                        	<td>6</td>
+                                            <td>罢了</td>
+                                            <td>张鹏飞</td>
+                                            <td>张鹏飞</td>
+                                            <td>2016-09-26</td>
+                                            <td>
+                                                <div class="tpl-table-black-operation">
+                                                    <a href="javascript:;">
+                                                        <i class="am-icon-pencil"></i> 编辑
+                                                    </a>
+                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                        <i class="am-icon-trash"></i> 删除
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- more data -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="am-u-lg-12 am-cf">
 
-                                    <div class="am-fr">
-                                        <ul class="am-pagination tpl-pagination">
-                                            <li class="am-disabled"><a href="#">«</a></li>
-                                            <li class="am-active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li><a href="#">»</a></li>
-                                        </ul>
-                                    </div>
+                                <div class="am-fr">
+                                    <ul class="am-pagination tpl-pagination">
+                                        <li class="am-disabled"><a href="#">«</a></li>
+                                        <li class="am-active"><a href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#">»</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -196,12 +232,28 @@
                 </div>
             </div>
         </div>
-    <script th:src="@{/js/jquery.min.js}"></script>
-    <script th:src="@{/js/amazeui.min.js}"></script>
-    <script th:src="@{/js/amazeui.datatables.min.js}"></script>
-    <script th:src="@{/js/dataTables.responsive.min.js}"></script>
-    <script th:src="@{/js/app.js"></script>
-
+    </div>
+    
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/amazeui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/amazeui.datatables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/dataTables.responsive.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+	<script type="text/javascript">
+		//删除角色
+		function deleteRole() {
+			/* parent.SweetComfirm("确定要删除记录吗？", function() {
+				if(2/1 == 3) {
+					parent.SweetAlert(true, "删除成功！");
+					location.href = location.href;
+				}else {
+					parent.SweetAlert(false, "删除失败！");
+				}
+			}); */
+			parent.SweetWarning("请选择删除的记录！");
+		}
+	
+	</script>
 </body>
 
 </html>

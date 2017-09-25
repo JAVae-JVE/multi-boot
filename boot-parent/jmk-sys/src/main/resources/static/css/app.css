@@ -995,6 +995,14 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   background: #e7505a;
   color: #fff;
 }
+.theme-white .tpl-table-black-operation a.tpl-table-black-operation-case {
+  border: 1px solid #F37B1D;
+  color: #F37B1D;
+}
+.theme-white .tpl-table-black-operation a.tpl-table-black-operation-case:hover {
+  background: #F37B1D;
+  color: #fff;
+}
 .theme-white .tpl-amendment-echarts {
   left: -17px;
 }
