@@ -8,9 +8,24 @@ import com.jinmark.sys.domain.SysPermission;
 
 public interface SysPermissionRepository extends JpaRepository<SysPermission, String> {
 	/**
-	 * 通过available相等查询
+	 * 
+	 * @Title findByAvailableAndParentIdIsNullOrderByPriorityAsc
+	 * @Description TODO(获取所有根菜单) 
 	 * @param available
-	 * @return List
+	 * @return
+	 * @return List<SysPermission>  返回类型 
+	 * @throws
 	 */
-	List<SysPermission> findByAvailable(boolean available);
+	List<SysPermission> findByAvailableAndParentIdIsNullOrderByPriorityAsc(boolean available);
+	/**
+	 * 
+	 * @Title findByAvailableAndParentIdOrderByPriorityAsc
+	 * @Description TODO(获取子菜单集合) 
+	 * @param available
+	 * @param parentId
+	 * @return
+	 * @return List<SysPermission>  返回类型 
+	 * @throws
+	 */
+	List<SysPermission> findByAvailableAndParentIdOrderByPriorityAsc(boolean available, String parentId);
 }

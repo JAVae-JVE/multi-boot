@@ -55,6 +55,40 @@
 								    <div class="am-panel-bd">
 								            <!-- 菜单 -->
 								            <ul class="sidebar-nav">
+									             <li class="sidebar-nav-link" th:each="menu : ${menus}">
+									                 <a href="javascript:;" th:class="${not #lists.isEmpty(menu.children)} ? 'sidebar-nav-sub-title'">
+									                     <span th:if="${not #lists.isEmpty(menu.children)}" class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+									                     <span th:unless="${not #lists.isEmpty(menu.children)}" class="am-icon-minus-square-o am-margin-right-sm"></span>
+									                     <i th:class="${menu.iconClass}"></i>
+									                     <span th:text="${menu.name}"></span>
+									                     <span class="am-badge am-badge-danger am-fr">删除</span>
+														 <span class="am-badge am-badge-secondary am-fr">编辑</span>
+									                 </a>
+									                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(menu.children)}">
+									                 	<li class="sidebar-nav-link" th:each="child : ${menu.children}">
+									                         <a href="javascript:;" th:class="${not #lists.isEmpty(child.children)} ? 'sidebar-nav-sub-title'">
+											                     <span th:if="${not #lists.isEmpty(child.children)}" class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+											                     <span th:unless="${not #lists.isEmpty(child.children)}" class="am-icon-minus-square-o am-margin-right-sm"></span>
+											                     <i th:class="${child.iconClass}"></i>
+											                     <span th:text="${child.name}"></span>
+											                     <span class="am-badge am-badge-danger am-fr">删除</span>
+																 <span class="am-badge am-badge-secondary am-fr">编辑</span>
+											                 </a>
+											                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(child.children)}">
+											                 	<li class="sidebar-nav-link" th:each="child2 : ${child.children}">
+											                         <a href="javascript:;">
+											                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+										                                <span th:class="${child2.iconClass}" th:text="| ${child2.name}|"></span>
+										                                <span class="am-badge am-badge-danger am-fr">删除</span>
+																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
+											                         </a>
+											                     </li>
+											                 </ul>
+									                     </li>
+									                 </ul>
+									             </li>
+									         </ul>
+								            <!-- <ul class="sidebar-nav">
 								                <li class="sidebar-nav-link">
 								                    <a href="javascript:;">
 								                    	<span class="am-icon-minus-square-o am-margin-right-sm"></span>
@@ -138,7 +172,7 @@
 								                        </li>
 								                    </ul>
 								                </li>
-								            </ul>
+								            </ul> -->
 								        </div>
 								</div>
 								

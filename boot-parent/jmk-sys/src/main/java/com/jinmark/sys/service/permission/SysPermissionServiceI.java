@@ -4,32 +4,24 @@ import java.util.List;
 import java.util.Set;
 
 import com.jinmark.sys.domain.SysPermission;
-import com.jinmark.sys.domain.SysUser;
 
 
 
 public interface SysPermissionServiceI {
-	/**
-	 * 根据权限ID获取权限
-	 * @param id
-	 * @return SysPermission
-	 */
-	//public SysPermission findOne(String id);
-	/**
-	 * 获取所有根权限
-	 * @return List
-	 */
-	//public List<SysPermission> findAllRoot();
 	
-	/**
-	 * 获取所有的权限菜单
-	 * @return List
-	 */
-	//public List<SysPermission> findAllMenus();
 	/**
 	 * 得到资源对应的权限字符串
 	 * @param menuIds
 	 * @return Set
 	 */
-	public Set<String> findPermissions(Set<String> menuIds);
+	Set<String> findPermissions(Set<String> menuIds);
+	/**
+	 * 
+	 * @Title findSysPermissions
+	 * @Description TODO(递归获取所有菜单) 
+	 * @return
+	 * @return List<SysPermission>  返回类型 
+	 * @throws
+	 */
+	List<SysPermission> findSysPermissions();
 }

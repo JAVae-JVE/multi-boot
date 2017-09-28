@@ -36,30 +36,29 @@
                             </div>
                             <div class="widget-body am-fr">
 
-                                <form class="am-form tpl-form-border-form tpl-form-border-br">
+                                <form id="menu-form" class="am-form tpl-form-border-form tpl-form-border-br">
                                     <div class="am-form-group">
-                                        <label for="user-uesrname" class="am-u-sm-3 am-form-label">菜单名称</label>
+                                        <label for="menu-name" class="am-u-sm-3 am-form-label">菜单名称</label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="menu-name" placeholder="输入菜单名称（2-6个字符）" data-validation-message="输入菜单名称（2-6个字符）" minlength="2" maxlength="6" required>
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="user-role" class="am-u-sm-3 am-form-label">菜单类型</label>
+                                        <label for="menu-type" class="am-u-sm-3 am-form-label">菜单类型</label>
                                         <div class="am-u-sm-9">
-                                            <select data-am-selected style="display: none;">
-											  <option value="-1">请选择类型</option>
-											  <option value="a">菜单</option>
-											  <option value="b">按钮</option>
+                                            <select id="menu-type" data-am-selected style="display: none;" data-validation-message="选择类型" required>
+											  <option value="">选择类型</option>
+											  <option value="menu">菜单</option>
+											  <option value="button">按钮</option>
 											</select>
-
+											<br>
                                         </div>
                                     </div>
                                     <div class="am-form-group">
-                                        <label for="user-role" class="am-u-sm-3 am-form-label">父级菜单</label>
+                                        <label for="menu-p" class="am-u-sm-3 am-form-label">父级菜单</label>
                                         <div class="am-u-sm-9">
-                                            <select data-am-selected="{maxHeight: 200}" style="display: none;">
+                                            <select id="menu-p" data-am-selected="{maxHeight: 200}" style="display: none;" data-validation-message="选择父级菜单" required>
 											  <option value="-1">|—根菜单</option>
 											  <option value="a" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—首页</option>
 											  <option value="b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—权限管理</option>
@@ -67,43 +66,41 @@
 											  <option value="b-b" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—角色</option>
 											  <option value="b-c" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—菜单</option>
 											</select>
-
+											<br>
                                         </div>
                                     </div>
 
                                     <div class="am-form-group">
-                                        <label for="user-name" class="am-u-sm-3 am-form-label">权限字符串</label>
+                                        <label for="menu-perm" class="am-u-sm-3 am-form-label">权限字符串</label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="menu-perm" maxlength="20" placeholder="输入权限字符串（20个字符以内）" data-validation-message="输入权限字符串（20个字符以内）">
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="user-name" class="am-u-sm-3 am-form-label">URL地址</label>
+                                        <label for="menu-url" class="am-u-sm-3 am-form-label">URL地址</label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="menu-url" maxlength="100" placeholder="输入URL地址（100个字符以内）" data-validation-message="输入URL地址（100个字符以内）">
                                         </div>
                                     </div>
                                     <div class="am-form-group">
-                                        <label for="user-name" class="am-u-sm-3 am-form-label">菜单图标class</label>
+                                        <label for="menu-icon" class="am-u-sm-3 am-form-label">菜单图标class</label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="menu-icon" maxlength="50" placeholder="输入菜单图标class（50个字符以内）" data-validation-message="输入菜单图标class（50个字符以内）">
                                         </div>
-                                    </div><div class="am-form-group">
-                                        <label for="user-name" class="am-u-sm-3 am-form-label">菜单顺序</label>
+                                    </div>
+                                    
+                                    <div class="am-form-group">
+                                        <label for="menu-sort" class="am-u-sm-3 am-form-label">菜单顺序</label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="number" class="tpl-form-input" id="menu-sort" min="1" value="1" placeholder="输入菜单顺序（大于1的整数）" data-validation-message="输入菜单顺序（大于1的整数）">
                                         </div>
                                     </div>
                                     <div class="am-form-group">
                                         <div class="am-u-sm-9 am-u-sm-push-3">
                                         	<button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success go_history">取消</button>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                            <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
                                         </div>
                                     </div>
                                 </form>
@@ -118,7 +115,44 @@
     <script th:src="@{/js/amazeui.datatables.min.js}"></script>
     <script th:src="@{/js/dataTables.responsive.min.js}"></script>
     <script th:src="@{/js/app.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#menu-form').validator({
+			    onValid: function(validity) {
+			      $(validity.field).closest('.am-form-group').find('small').hide();
+			    },
 
+			    onInValid: function(validity) {
+			      var $field = $(validity.field);
+			      var $alert = $field.next('small');
+			      // 使用自定义的提示信息 或 插件内置的提示信息
+			      var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+
+			      if (!$alert.length) {
+			        $alert = $('<small></small>').hide().
+			          appendTo($field.parent());
+			      }
+
+			      $alert.html(msg).show();
+			    },
+			    submit: function() {
+			    	//不管验证成功还是失败都阻止表单提交，采用ajax异步提交
+			    	if(this.isFormValid()) {
+			    		submitForm();
+			    		return false;
+			    	}else {
+			    		return false;
+			    	}
+			    }
+			});
+		});
+		
+		function submitForm() {
+			CommonUtil.post('',false,{},function(re) {
+    			
+    		})
+		}
+	</script>
 </body>
 
 </html>
