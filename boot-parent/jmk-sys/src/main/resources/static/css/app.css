@@ -3,7 +3,14 @@ body {
   height: 100%;
   overflow: hidden;
 }
-
+label span {
+	color: #DD514C;
+	margin-left: 10px;
+	font-weight: bold;
+}
+small.error-tip {
+	color: #DD514C;
+}
 ul,
 li {
   list-style: none;

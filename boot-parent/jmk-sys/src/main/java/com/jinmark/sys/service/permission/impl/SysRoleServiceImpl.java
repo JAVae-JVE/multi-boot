@@ -69,7 +69,7 @@ public class SysRoleServiceImpl implements SysRoleServiceI {
 			for (SysRole sysRole : r) {
 				Set<SysRolePermission> rp = sysRole.getSysRolePermissions();
 				for (SysRolePermission sysRolePermission : rp) {
-					if(ResType.MENU.getInfo().equals(sysRolePermission.getSysPermission().getResourceType())) {
+					if(ResType.MENU.getValue().equals(sysRolePermission.getSysPermission().getResourceType())) {
 						menus.add(sysRolePermission.getSysPermission());
 						if(StringUtils.isBlank(sysRolePermission.getSysPermission().getParentId())) {
 							rootMenus.add(sysRolePermission.getSysPermission());

@@ -17,7 +17,6 @@
     <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
     <link rel="stylesheet" th:href="@{/css/amazeui.datatables.min.css}" />
     <link rel="stylesheet" th:href="@{/css/app.css}">
-    
 </head>
 
 <body class="theme-white">
@@ -38,16 +37,16 @@
 
                                 <form id="menu-form" class="am-form tpl-form-border-form tpl-form-border-br">
                                     <div class="am-form-group">
-                                        <label for="menu-name" class="am-u-sm-3 am-form-label">菜单名称</label>
+                                        <label for="menu-name" class="am-u-sm-3 am-form-label">菜单名称<span>*</span></label>
                                         <div class="am-u-sm-9">
                                             <input type="text" class="tpl-form-input" id="menu-name" placeholder="输入菜单名称（2-6个字符）" data-validation-message="输入菜单名称（2-6个字符）" minlength="2" maxlength="6" required>
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="menu-type" class="am-u-sm-3 am-form-label">菜单类型</label>
+                                        <label for="menu-type" class="am-u-sm-3 am-form-label">菜单类型<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <select id="menu-type" data-am-selected style="display: none;" data-validation-message="选择类型" required>
+                                            <select id="menu-type" data-am-selected data-validation-message="选择类型" required>
 											  <option value="">选择类型</option>
 											  <option value="menu">菜单</option>
 											  <option value="button">按钮</option>
@@ -56,15 +55,15 @@
                                         </div>
                                     </div>
                                     <div class="am-form-group">
-                                        <label for="menu-p" class="am-u-sm-3 am-form-label">父级菜单</label>
+                                        <label for="menu-p" class="am-u-sm-3 am-form-label">父级菜单<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <select id="menu-p" data-am-selected="{maxHeight: 200}" style="display: none;" data-validation-message="选择父级菜单" required>
-											  <option value="-1">|—根菜单</option>
+                                            <select id="menu-p" data-am-selected="{maxHeight: 200}" data-validation-message="选择父级菜单" required>
+											  <!-- <option value="-1">|—根菜单</option>
 											  <option value="a" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—首页</option>
 											  <option value="b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—权限管理</option>
 											  <option value="b-a" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—用户</option>
 											  <option value="b-b" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—角色</option>
-											  <option value="b-c" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—菜单</option>
+											  <option value="b-c" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—菜单</option> -->
 											</select>
 											<br>
                                         </div>
@@ -117,41 +116,37 @@
     <script th:src="@{/js/app.js}"></script>
 	<script type="text/javascript">
 		$(function(){
-			$('#menu-form').validator({
-			    onValid: function(validity) {
-			      $(validity.field).closest('.am-form-group').find('small').hide();
-			    },
-
-			    onInValid: function(validity) {
-			      var $field = $(validity.field);
-			      var $alert = $field.next('small');
-			      // 使用自定义的提示信息 或 插件内置的提示信息
-			      var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
-
-			      if (!$alert.length) {
-			        $alert = $('<small></small>').hide().
-			          appendTo($field.parent());
-			      }
-
-			      $alert.html(msg).show();
-			    },
-			    submit: function() {
-			    	//不管验证成功还是失败都阻止表单提交，采用ajax异步提交
-			    	if(this.isFormValid()) {
-			    		submitForm();
-			    		return false;
-			    	}else {
-			    		return false;
-			    	}
-			    }
+			formValidate('menu-form', true, function() {
+				CommonUtil.post('',false,{},function(re) {
+					if(2/1 == 2) {
+						parent.SweetAlert(true, "操作成功！");
+						history.go(-1);
+						location.reload();
+					}else {
+						parent.SweetAlert(false, "删除失败！");
+					}
+	    		})
+			});
+			
+			//选择菜单类型时初始化父级菜单
+			$("#menu-type").change(function() {
+				var html = '';
+				CommonUtil.post('/perm/parent_' + $(this).val(), false, null, function(re) {
+					if(re.success) {
+						$.each(re.result, function(i, n) {
+							if(n.disabled) {
+								html += '<option value="' + n.id + '" disabled>'+ n.name +'</option>';
+							}else {
+								html += '<option value="' + n.id + '">'+ n.name +'</option>';
+							}
+						})
+					}
+	    		});
+			console.log(html);
+				$("#menu-p").html(html);  
 			});
 		});
 		
-		function submitForm() {
-			CommonUtil.post('',false,{},function(re) {
-    			
-    		})
-		}
 	</script>
 </body>
 

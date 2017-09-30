@@ -189,6 +189,47 @@ function SweetComfirm(msg, nextMethod) {
 	});
 }
 
+/**
+ * 表单验证公共方法
+ * @param formId 表单id
+ * @param async 是否异步
+ * @param exeFunction 回调方法，同步时回调无效
+ * @returns
+ */
+function formValidate(formId, async, exeFunction) {
+	$('#' + formId).validator({
+	    onValid: function(validity) {
+	      $(validity.field).closest('.am-form-group').find('small').hide();
+	    },
+
+	    onInValid: function(validity) {
+	      var $field = $(validity.field);
+	      var $alert = $field.next('small');
+	      // 使用自定义的提示信息 或 插件内置的提示信息
+	      var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+
+	      if (!$alert.length) {
+	        $alert = $('<small class="error-tip"></small>').hide().
+	          appendTo($field.parent());
+	      }
+
+	      $alert.html(msg).show();
+	    },
+	    submit: function() {
+	    	if(async) {
+	    		//不管验证成功还是失败都阻止表单提交，采用ajax异步提交
+	    		if(this.isFormValid()) {
+		    		exeFunction();
+		    	}
+		    	return false;
+	    	}else {
+	    		if(!this.isFormValid()) {
+	    			return false;
+	    		}
+	    	}
+	    }
+	});
+}
 
 var CommonUtil={
 	    post:function(url,async,data,callBak){
