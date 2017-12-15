@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.jinmark.core.bean.Response;
 import com.jinmark.sys.service.login.LoginServiceI;
-import com.jinmark.sys.vo.LoginRequest;
+import com.jinmark.sys.vo.login.LoginRequest;
 
 @Controller
 public class LoginController {

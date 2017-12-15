@@ -25,6 +25,11 @@ spring:
       min-idle: 0
 # 连接超时时间（毫秒
     timeout: 0
+  devtools:
+    restart:
+      enabled: true
+      additional-paths:
+      - src/main/java
 #配置日志参数
 logging:
   file: Log.log

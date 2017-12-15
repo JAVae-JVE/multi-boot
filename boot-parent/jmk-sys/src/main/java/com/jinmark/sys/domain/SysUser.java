@@ -93,7 +93,7 @@ public class SysUser implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 64)
+	@Column(name = "name", length = 64)
 	public String getName() {
 		return this.name;
 	}
@@ -138,7 +138,7 @@ public class SysUser implements java.io.Serializable {
 		this.locked = locked;
 	}
 
-	@Column(name = "mobile", unique = true, nullable = false, length = 11)
+	@Column(name = "mobile", unique = true, length = 11)
 	public String getMobile() {
 		return this.mobile;
 	}

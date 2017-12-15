@@ -1,24 +1,28 @@
 package com.jinmark.sys.service.permission.impl;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.jinmark.sys.domain.SysPermission;
+import com.jinmark.core.bean.Pages;
 import com.jinmark.sys.domain.SysUser;
 import com.jinmark.sys.domain.SysUserRole;
 import com.jinmark.sys.repository.SysUserRepository;
 import com.jinmark.sys.service.permission.SysRoleServiceI;
 import com.jinmark.sys.service.permission.SysUserServiceI;
+import com.jinmark.sys.vo.permission.QueryUserRequest;
 
 @Service
-@Transactional(readOnly = true)
 public class SysUserServiceImpl implements SysUserServiceI {
 	
 	@Autowired
@@ -67,6 +71,20 @@ public class SysUserServiceImpl implements SysUserServiceI {
 	}
 
 	@Override
+	public List<SysUser> queryUserList(QueryUserRequest queryUserRequest, Pages pages) {
+		Pageable pageable = new PageRequest(pages.getPage() - 1, pages.getSize(), new Sort(Direction.DESC, "createtime"));
+		if(StringUtils.isBlank(queryUserRequest.getName())) {
+			queryUserRequest.setName("%%");
+		}
+		return userRepository.findUserList(queryUserRequest, pageable);
+	}
+
+	@Override
+	public SysUser getUserById(String userId) {
+		return userRepository.findOne(userId);
+	}
+
+	/*@Override
 	public List<SysPermission> findMenus(String username) {
 		SysUser user =findByUsername(username);
         if(user == null) {
@@ -75,7 +93,7 @@ public class SysUserServiceImpl implements SysUserServiceI {
         
         Set<String> roleIds = findRoleIdsByUser(user);
 		return roleService.findMenus(roleIds.toArray(new String[0]));
-	}
+	}*/
 
 	/*@Transactional(readOnly = false)
 	@Override

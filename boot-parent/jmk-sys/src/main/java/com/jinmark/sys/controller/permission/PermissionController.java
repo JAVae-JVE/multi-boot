@@ -1,20 +1,22 @@
 package com.jinmark.sys.controller.permission;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.jinmark.core.Constants.ResType;
 import com.jinmark.core.bean.Response;
-import com.jinmark.core.bean.Selected;
-import com.jinmark.sys.exception.JSONException;
+import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.service.permission.SysPermissionServiceI;
+import com.jinmark.sys.vo.permission.MenuRequest;
 /**
  * 
  * @author QC
@@ -54,10 +56,6 @@ public class PermissionController {
 	 */
 	@RequestMapping("/add")
 	public String permAdd(Model model) {
-		List<Selected> items = new ArrayList<Selected>();
-		items.add(new Selected(ResType.MENU.getValue(), ResType.MENU.getName(), false));
-		items.add(new Selected(ResType.BUTTON.getValue(), ResType.BUTTON.getName(), false));
-		model.addAttribute("menu_type", items);
 		return "permission/perm/perm_form";
 	}
 	
@@ -73,8 +71,25 @@ public class PermissionController {
 	 */
 	@RequestMapping("/edit_{id}")
 	public String permEdit(@PathVariable("id") String id, Model model) {
-		
+		model.addAttribute("perm_id", id);
 		return "permission/perm/perm_form";
+	}
+	
+	
+	/**
+	 * 
+	 * @Title permGet
+	 * @Description TODO(根据id获取菜单对象) 
+	 * @param id
+	 * @return
+	 * @throws JSONException
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/get_{id}")
+	@ResponseBody
+	public Response permGet(@PathVariable("id") String id) {
+		return permissionService.getSysPermission(id);
 	}
 	
 	/**
@@ -89,7 +104,7 @@ public class PermissionController {
 	 */
 	@RequestMapping("/parent_{type}")
 	@ResponseBody
-	public Response permFindParent(@PathVariable("type") String menuType) throws JSONException {
+	public Response permFindParent(@PathVariable("type") String menuType) {
 		return permissionService.findParent(menuType);
 	}
 	
@@ -103,8 +118,19 @@ public class PermissionController {
 	 * @throws
 	 */
 	@RequestMapping("/create")
-	public Response permCreate() throws JSONException {
-		return null;
+	@ResponseBody
+	public Response permCreate(@Valid MenuRequest menuRequest, BindingResult result) {
+		Response res = new Response("");
+		if(result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();  
+            for (ObjectError error : list) { 
+            	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
+            }  
+		}else {
+			SysPermission sysPermission = new SysPermission(null, menuRequest.getName(), menuRequest.getResourceType(), menuRequest.getUrl(), menuRequest.getPermission(), menuRequest.getParentId(), menuRequest.getPriority(), menuRequest.getIconClass());
+			res = permissionService.saveSysPermission(sysPermission);
+		}
+		return res;
 	}
 	
 	/**
@@ -117,7 +143,35 @@ public class PermissionController {
 	 * @throws
 	 */
 	@RequestMapping("/update")
-	public Response permUpdate() throws JSONException {
-		return null;
+	@ResponseBody
+	public Response permUpdate(@Valid MenuRequest menuRequest, BindingResult result) {
+		Response res = new Response("");
+		if(StringUtils.isBlank(menuRequest.getId())) {
+			res.setMsg("未传入修改对象的唯一标识");
+		} else if(result.hasErrors()) {
+			List<ObjectError> list = result.getAllErrors();  
+            for (ObjectError error : list) { 
+            	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
+            }  
+		}else {
+			SysPermission sysPermission = new SysPermission(menuRequest.getId(), menuRequest.getName(), menuRequest.getResourceType(), menuRequest.getUrl(), menuRequest.getPermission(), menuRequest.getParentId(), menuRequest.getPriority(), menuRequest.getIconClass());
+			res = permissionService.saveSysPermission(sysPermission);
+		}
+		return res;
+	}
+	
+	/**
+	 * 
+	 * @Title permDelete
+	 * @Description TODO(删除菜单) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/delete_{id}")
+	@ResponseBody
+	public Response permDelete(@PathVariable("id") String id) {
+		return permissionService.deleteSysPermission(id);
 	}
 }

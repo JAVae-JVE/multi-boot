@@ -136,16 +136,22 @@
 		    <version>1.9.22</version>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 		    <groupId>net.sf.jmimemagic</groupId>
 		    <artifactId>jmimemagic</artifactId>
 		    <version>0.1.4</version>
-		</dependency>
+		</dependency> -->
 		<!-- 图片等比例缩略图工具包 -->
 		<dependency>
 		    <groupId>net.coobird</groupId>
 		    <artifactId>thumbnailator</artifactId>
 		    <version>0.4.8</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.swinglabs</groupId>
+		    <artifactId>swingx</artifactId>
+		    <version>1.6.1</version>
 		</dependency>
 
 

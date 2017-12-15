@@ -1,17 +1,24 @@
-package com.jinmark.sys.vo;
+package com.jinmark.sys.vo.login;
 
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * 
+ * @author QC
+ * @ClassName LoginRequest
+ * @Description TODO(登录表单域验证对象) 
+ * @date 2017年10月10日下午3:55:06
+ */
 public class LoginRequest {
 	/**
 	 * 账号
 	 */
-	@Length(min = 5, max = 20, message = "{login.username}")
+	@Length(min = 4, max = 20, message = "{user.username}")
 	private String username;
 	/**
 	 * 密码
 	 */
-	@Length(min = 6, message = "{login.password}")
+	@Length(min = 8, message = "{user.password}")
 	private String password;
 	
 	public String getUsername() {

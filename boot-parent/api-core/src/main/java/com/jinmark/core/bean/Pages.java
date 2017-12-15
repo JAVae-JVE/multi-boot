@@ -8,52 +8,55 @@ public class Pages {
 	/**
 	 * 页大小
 	 */
-	protected int pageSize = 10;
+	private int size = 10;
 	/**
 	 * 当前页
 	 */
-	protected int pageCurrent = 1;
+	private int page = 1;
 	/**
 	 * 总条数
 	 */
-	protected int total;
+	private int total;
 	/**
 	 * 总页数
 	 */
-	protected int totalPage;
+	private int totalPage;
 	
 	public Pages() {
 		super();
 	}
-	public Pages(int pageSize, int pageCurrent, int total, int totalPage) {
-		super();
-		this.pageSize = pageSize;
-		this.pageCurrent = pageCurrent;
-		this.total = total;
-		this.totalPage = totalPage;
+
+	public int getSize() {
+		return size;
 	}
-	public int getPageSize() {
-		return pageSize;
+
+	public void setSize(int size) {
+		this.size = size;
 	}
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+
+	public int getPage() {
+		return page;
 	}
-	public int getPageCurrent() {
-		return pageCurrent;
+
+	public void setPage(int page) {
+		this.page = page;
 	}
-	public void setPageCurrent(int pageCurrent) {
-		this.pageCurrent = pageCurrent;
-	}
+
 	public int getTotal() {
 		return total;
 	}
+
 	public void setTotal(int total) {
 		this.total = total;
 	}
+
 	public int getTotalPage() {
 		return totalPage;
 	}
+
 	public void setTotalPage(int totalPage) {
 		this.totalPage = totalPage;
 	}
+	
+	
 }

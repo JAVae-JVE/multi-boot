@@ -71,16 +71,22 @@ public class Constants {
 	 * @date 2017年9月14日下午2:11:50
 	 */
 	public static enum ResType {
-        MENU("menu"), BUTTON("button");
+        MENU("菜单", "menu"), BUTTON("按钮", "button");
 
-        private final String info;
-        private ResType(String info) {
-            this.info = info;
-        }
-
-        public String getInfo() {
-            return info;
-        }
+        private String name;
+        private String value;
+        
+		private ResType(String name, String value) {
+			this.name = name;
+			this.value = value;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		public String getValue() {
+			return value;
+		}        
     }
 	
 	/*public static enum Status {

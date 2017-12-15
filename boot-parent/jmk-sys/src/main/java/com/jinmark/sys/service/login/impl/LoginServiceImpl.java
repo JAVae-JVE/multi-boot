@@ -25,7 +25,6 @@ import com.jinmark.sys.repository.SysUserRepository;
 import com.jinmark.sys.service.login.LoginServiceI;
 
 @Service
-@Transactional(readOnly = true)
 public class LoginServiceImpl implements LoginServiceI {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());

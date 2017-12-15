@@ -61,8 +61,8 @@
 									                     <span th:unless="${not #lists.isEmpty(menu.children)}" class="am-icon-minus-square-o am-margin-right-sm"></span>
 									                     <i th:class="${menu.iconClass}"></i>
 									                     <span th:text="${menu.name}"></span>
-									                     <span class="am-badge am-badge-danger am-fr">删除</span>
-														 <span class="am-badge am-badge-secondary am-fr">编辑</span>
+									                     <span th:attr="m_id=${menu.id}" onclick="deleteMenu(this);" class="am-badge am-badge-danger am-fr">删除</span>
+														 <span th:attr="m_id=${menu.id}" onclick="editMenu(this);" class="am-badge am-badge-secondary am-fr">编辑</span>
 									                 </a>
 									                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(menu.children)}">
 									                 	<li class="sidebar-nav-link" th:each="child : ${menu.children}">
@@ -71,16 +71,16 @@
 											                     <span th:unless="${not #lists.isEmpty(child.children)}" class="am-icon-minus-square-o am-margin-right-sm"></span>
 											                     <i th:class="${child.iconClass}"></i>
 											                     <span th:text="${child.name}"></span>
-											                     <span class="am-badge am-badge-danger am-fr">删除</span>
-																 <span class="am-badge am-badge-secondary am-fr">编辑</span>
+											                     <span th:attr="m_id=${child.id}" onclick="deleteMenu(this);" class="am-badge am-badge-danger am-fr">删除</span>
+																 <span th:attr="m_id=${child.id}" onclick="editMenu(this);" class="am-badge am-badge-secondary am-fr">编辑</span>
 											                 </a>
 											                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(child.children)}">
 											                 	<li class="sidebar-nav-link" th:each="child2 : ${child.children}">
 											                         <a href="javascript:;">
 											                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
 										                                <span th:class="${child2.iconClass}" th:text="| ${child2.name}|"></span>
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
+										                                <span th:attr="m_id=${child2.id}" onclick="deleteMenu(this);" class="am-badge am-badge-danger am-fr">删除</span>
+																		<span th:attr="m_id=${child2.id}" onclick="editMenu(this);" class="am-badge am-badge-secondary am-fr">编辑</span>
 											                         </a>
 											                     </li>
 											                 </ul>
@@ -88,98 +88,10 @@
 									                 </ul>
 									             </li>
 									         </ul>
-								            <!-- <ul class="sidebar-nav">
-								                <li class="sidebar-nav-link">
-								                    <a href="javascript:;">
-								                    	<span class="am-icon-minus-square-o am-margin-right-sm"></span>
-								                        <i class="am-icon-home"></i> 首页
-														<span class="am-badge am-badge-danger am-fr">删除</span>
-														<span class="am-badge am-badge-secondary am-fr">编辑</span>
-								                    </a>
-								                </li>
-								                
-								                <li class="sidebar-nav-link">
-								                    <a href="javascript:;">
-								                    	<span class="am-icon-minus-square-o am-margin-right-sm"></span>
-								                        <i class="am-icon-home"></i> haha
-														<span class="am-badge am-badge-danger am-fr">删除</span>
-														<span onclick="editMenu();" class="am-badge am-badge-secondary am-fr">编辑</span>
-								                    </a>
-								                </li>
-								
-								                <li class="sidebar-nav-link">
-								                    <a href="javascript:;" class="sidebar-nav-sub-title">
-								                    	<span class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-								                        <i class="am-icon-table"></i> 权限管理
-								                        <span class="am-badge am-badge-danger am-fr">删除</span>
-														<span onclick="editMenu();" class="am-badge am-badge-secondary am-fr">编辑</span>
-								                        
-								                    </a>
-								                    <ul class="sidebar-nav sidebar-nav-sub">
-								                        <li class="sidebar-nav-link">
-								                            <a href="javascript:;" class="sidebar-nav-sub-title">
-								                            	<span class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-								                                <span class="am-icon-angle-right"></span> 用户
-								                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																<span class="am-badge am-badge-secondary am-fr">编辑</span>
-								                            </a>
-								                            <ul class="sidebar-nav sidebar-nav-sub">
-								                            	<li class="sidebar-nav-link">
-										                            <a href="javascript:;">
-										                            	<span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-										                                <span class="am-icon-angle-right"></span> 新增/编辑用户
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
-										                            </a>
-										                        </li>
-										                        <li class="sidebar-nav-link">
-										                            <a href="javascript:;">
-										                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-										                                <span class="am-icon-angle-right"></span> 删除用户
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
-										                            </a>
-										                        </li>
-								                            </ul>
-								                        </li>
-								
-								                        <li class="sidebar-nav-link">
-								                            <a href="javascript:;" class="sidebar-nav-sub-title">
-								                            	<span class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-								                                <span class="am-icon-angle-right"></span> 角色
-								                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																<span class="am-badge am-badge-secondary am-fr">编辑</span>
-								                            </a>
-								                            
-								                            <ul class="sidebar-nav sidebar-nav-sub">
-								                            	<li class="sidebar-nav-link">
-										                            <a href="javascript:;">
-										                            	<span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-										                                <span class="am-icon-angle-right"></span> 新增/编辑角色
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
-										                            </a>
-										                        </li>
-										                        <li class="sidebar-nav-link">
-										                            <a href="javascript:;">
-										                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
-										                                <span class="am-icon-angle-right"></span> 删除角色
-										                                <span class="am-badge am-badge-danger am-fr">删除</span>
-																		<span class="am-badge am-badge-secondary am-fr">编辑</span>
-										                            </a>
-										                        </li>
-								                            </ul>
-								                        </li>
-								                    </ul>
-								                </li>
-								            </ul> -->
+								           
 								        </div>
 								</div>
 								
-								<!-- <div class="am-panel am-panel-default am-u-sm-6">
-								    <div class="am-panel-bd">这是一个基本的面板组件。</div>
-								</div> -->
-                            
                             </div>
                         </div>
                     </div>
@@ -195,8 +107,26 @@
     <script type="text/javascript" th:src="@{/js/app.js}"></script>
 	<script type="text/javascript">
 	
-		function editMenu(){
-			
+		function editMenu(obj){
+			jumpUrl('perm/edit_' + $(obj).attr('m_id'));
+			event.stopPropagation();
+		}
+		
+		function deleteMenu(obj) {
+			parent.SweetComfirm("确认删除该菜单？", function() {
+				CommonUtil.post('/perm/delete_' + $(obj).attr('m_id'),false,null,function(re) {
+					if(re.success) {
+						parent.SweetAlert(true, re.msg);
+						location.reload();
+					}else {
+						parent.SweetAlert(false, re.msg);
+					}
+	    		}, function(XMLHttpRequest, textStatus, errorThrown) {
+	    			parent.SweetAlert(false, "删除失败");
+	    		})
+				
+				
+			});
 			event.stopPropagation();
 		}
 		

@@ -5,13 +5,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.jinmark.core.Constants.ResType;
+import com.jinmark.core.bean.Selected;
 import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysRole;
 import com.jinmark.sys.domain.SysRolePermission;
@@ -21,7 +19,6 @@ import com.jinmark.sys.service.permission.SysPermissionServiceI;
 import com.jinmark.sys.service.permission.SysRoleServiceI;
 
 @Service
-@Transactional(readOnly = true)
 public class SysRoleServiceImpl implements SysRoleServiceI {
 
 	@Autowired
@@ -61,6 +58,18 @@ public class SysRoleServiceImpl implements SysRoleServiceI {
 	}
 
 	@Override
+	public List<Selected> findRoles() {
+		List<SysRole> list =  roleRepository.findByAvailable(true);
+		List<Selected> roles = new ArrayList<Selected>();
+		if(list != null && list.size() > 0) {
+			for (SysRole sysRole : list) {
+				roles.add(new Selected(sysRole.getId(), sysRole.getRoleName(), false));
+			}
+		}
+		return roles;
+	}
+
+	/*@Override
 	public List<SysPermission> findMenus(String[] roleIds) {
 		List<SysPermission> rootMenus = new ArrayList<SysPermission>();
 		List<SysPermission> menus = new ArrayList<SysPermission>();
@@ -91,7 +100,7 @@ public class SysRoleServiceImpl implements SysRoleServiceI {
 		}
 		return rootMenus;
 	}
-
+*/
 	/*@Override
 	public SysRole findOne(String roleId) {
 		return roleRepository.findOne(roleId);

@@ -190,7 +190,7 @@ function SweetComfirm(msg, nextMethod) {
 }
 
 /**
- * 表单验证公共方法
+ * 表单验证公共方法(不含远程异步验证，如果有请自行编写)
  * @param formId 表单id
  * @param async 是否异步
  * @param exeFunction 回调方法，同步时回调无效
@@ -206,7 +206,7 @@ function formValidate(formId, async, exeFunction) {
 	      var $field = $(validity.field);
 	      var $alert = $field.next('small');
 	      // 使用自定义的提示信息 或 插件内置的提示信息
-	      var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+	      var msg = $field.attr('data-validation-message') || this.getValidationMessage(validity);
 
 	      if (!$alert.length) {
 	        $alert = $('<small class="error-tip"></small>').hide().
@@ -232,16 +232,17 @@ function formValidate(formId, async, exeFunction) {
 }
 
 var CommonUtil={
-	    post:function(url,async,data,callBak){
+	    post:function(url,async,data,successCallBak,errorCallBak){
 	         $.ajax({
 			     type:"POST",
 			     url:url,
 			     cache:false,
 			     async:async,
 			     data:data,
-			     success:callBak
+			     success:successCallBak,
+			     error:errorCallBak
 	         });
-	    },postComplex:function(url,async,contentType,data,callBak){
+	    },postComplex:function(url,async,contentType,data,successCallBak,errorCallBak){
 		    $.ajax({
 			     type:"POST",
 			     url:url,
@@ -249,16 +250,18 @@ var CommonUtil={
 			     async:async,
 			     contentType:contentType,
 			     data:data,
-			     success:callBak
+			     success:successCallBak,
+			     error:errorCallBak
 		    });
-		},get:function(url,async,data,callBak){
+		},get:function(url,async,data,successCallBak,errorCallBak){
 	    	 $.ajax({
 			     type:"GET",
 			     url:url,
 			     cache:false,
 			     async:async,
 			     data:data,
-			     success:callBak
+			     success:successCallBak,
+			     error:errorCallBak
 			});
 	    },parseJSON:function(data){//类型转化
 	    	if(typeof data != "object"){
@@ -270,7 +273,7 @@ var CommonUtil={
 	    },getValue:function(id){
 	    	 return document.getElementById(id).value;
 	    },isEmpty:function(value){
-	    	  if(value!=null&&value!=''){
+	    	  if(value != null && value != ''){
 	    		  return false;
 	    	  }else{
 	    		  return true;
@@ -364,7 +367,7 @@ var CommonUtil={
 		    	}
 	    	}
 	    }
-};
+}
 
 
 //倒计时

@@ -2,8 +2,10 @@ package com.jinmark.sys.service.permission;
 
 import java.util.List;
 import java.util.Set;
-import com.jinmark.sys.domain.SysPermission;
+
+import com.jinmark.core.bean.Pages;
 import com.jinmark.sys.domain.SysUser;
+import com.jinmark.sys.vo.permission.QueryUserRequest;
 
 
 public interface SysUserServiceI {
@@ -27,29 +29,40 @@ public interface SysUserServiceI {
 	 * @author qinchuan
 	 * @date 2016-3-11 下午3:49:32
 	 */
-	public SysUser findByUsername(String username);
+	SysUser findByUsername(String username);
 	/**
 	 * 根据用户名查找其角色
 	 * @param username
 	 * @return Set
 	 */
-	public Set<String> findRoles(String username);
+	Set<String> findRoles(String username);
 	/**
 	 * 根据用户名查找其权限
 	 * @param username
 	 * @return Set
 	 */
-	public Set<String> findPermissions(String username);
+	Set<String> findPermissions(String username);
 	/**
 	 * 
-	 * @Title findMenus
-	 * @Description TODO(根据用户名查找其能够访问的菜单) 
-	 * @param username
+	 * @Title queryUserList
+	 * @Description TODO(用户列表) 
+	 * @param queryUserRequest
+	 * @param pages
 	 * @return
-	 * @return List<SysPermission>  返回类型 
+	 * @return List<SysUser>  返回类型 
 	 * @throws
 	 */
-	public List<SysPermission> findMenus(String username);
+	List<SysUser> queryUserList(QueryUserRequest queryUserRequest, Pages pages);
+	/**
+	 * 
+	 * @Title getUserById
+	 * @Description TODO(根据用户id获取用户) 
+	 * @param userId
+	 * @return
+	 * @return SysUser  返回类型 
+	 * @throws
+	 */
+	SysUser getUserById(String userId);
 	/**
 	 * 保存新增用户
 	 * @param username
@@ -57,18 +70,6 @@ public interface SysUserServiceI {
 	 * @return Response
 	 */
 	//public Response saveUser(String username, String password);
-	/**
-	 * 根据不同条件查询用户列表
-	 * @Description: TODO 
-	 * @param in
-	 * @param pages
-	 * @return
-	 * @return SysUserOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-3-11 下午3:58:59
-	 */
-	//public SysUserOut queryUsers(SysUserIn in, Pages pages);
 	/**
 	 * 获取单个用户
 	 * @Description: TODO 

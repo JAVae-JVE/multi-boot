@@ -3,17 +3,10 @@ package com.jinmark.sys.service.permission;
 import java.util.List;
 import java.util.Set;
 
-import com.jinmark.sys.domain.SysPermission;
-import com.jinmark.sys.domain.SysRole;
+import com.jinmark.core.bean.Selected;
 
 
 public interface SysRoleServiceI {
-	/**
-	 * 根据角色ID获取角色
-	 * @param roleId
-	 * @return SysRole
-	 */
-	//public SysRole findOne(String roleId);
 	/**
 	 * 根据角色编号得到角色标识符列表
 	 * @param roleIds
@@ -28,84 +21,11 @@ public interface SysRoleServiceI {
 	Set<String> findPerssions(String[] roleIds);
 	/**
 	 * 
-	 * @Title findMenus
-	 * @Description TODO(根据角色ids获取能够访问的菜单) 
-	 * @param roleIds
+	 * @Title findRoles
+	 * @Description TODO(获取角色) 
 	 * @return
-	 * @return List<SysPermission>  返回类型 
+	 * @return List<Selected>  返回类型 
 	 * @throws
 	 */
-	List<SysPermission> findMenus(String[] roleIds);
-	/**
-	 * 获取所有启用的角色
-	 * @return
-	 * @return List<SysRole>
-	 */
-	//public List<SysRole> findAllRoles();
-	/**
-	 * 查询角色
-	 * @Description: TODO
-	 * @param in
-	 * @param pages
-	 * @return
-	 * @return SysRoleOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-9-8 下午3:29:33
-	 */
-	/*public SysRoleOut queryRoles(SysRoleIn in, Pages pages);
-	*//**
-	 * 添加角色页面
-	 * @Description: TODO
-	 * @return
-	 * @return SysRoleOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-9-8 下午3:32:29
-	 *//*
-	public SysRoleOut addRolePage();
-	*//**
-	 * 保存角色
-	 * @Description: TODO
-	 * @param in
-	 * @return
-	 * @return SysRoleOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-9-8 下午3:35:09
-	 *//*
-	public SysRoleOut saveRole(SysRoleIn in);
-	*//**
-	 * 编辑角色页面
-	 * @Description: TODO
-	 * @param in
-	 * @return
-	 * @return SysRoleOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-9-8 下午3:37:34
-	 *//*
-	public SysRoleOut editRolePage(SysRoleIn in);
-	*//**
-	 * 编辑角色
-	 * @Description: TODO
-	 * @param in
-	 * @return
-	 * @return SysRoleOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-9-8 下午3:38:57
-	 *//*
-	public SysRoleOut editRole(SysRoleIn in);
-	*//**
-	 * 删除角色
-	 * @Description: TODO
-	 * @param in
-	 * @return
-	 * @return SysRoleOut  
-	 * @throws
-	 * @author qinchuan
-	 * @date 2016-9-8 下午3:41:38
-	 *//*
-	public SysRoleOut deleteRoles(SysRoleIn in);*/
+	List<Selected> findRoles();
 }

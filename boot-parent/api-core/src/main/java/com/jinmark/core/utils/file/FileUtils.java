@@ -21,8 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.Thumbnails.Builder;
 import net.coobird.thumbnailator.geometry.Positions;
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicMatch;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import com.jinmark.core.Constants;
@@ -47,23 +45,23 @@ public class FileUtils {
 	 *            文件大小，单位字节，最大为20971520(20MB)字节
 	 * @return Response
 	 */
-	public static Response<FileInfo> fileUpload(MultipartFile file, String saveDir,
+	public static Response fileUpload(MultipartFile file, String saveDir,
 			String fileType, Long fileSize) {
-		Response<FileInfo> res = null;
+		Response res = null;
 		if (file != null && StringUtils.isNotEmpty(saveDir)) {
 			try {
 				String fileMimeType = getMimeType(file.getBytes());
 				if (StringUtils.isNotEmpty(fileType)) {
 					if (!checkFormat(file.getBytes(), fileType)) {
 						// 上传文件类型不允许
-						res = new Response<FileInfo>(false, "不允许的文件类型");
+						res = new Response(false, "不允许的文件类型");
 						return res;
 					}
 				}
 				if (fileSize != null) {
 					if (fileSize < file.getSize()) {
 						// 上传文件过大
-						res = new Response<FileInfo>(false, "文件不得超过"
+						res = new Response(false, "文件不得超过"
 								+ (fileSize / (1024 * 1024)) + "MB");
 						return res;
 					}
@@ -71,7 +69,7 @@ public class FileUtils {
 				String fileName = file.getOriginalFilename();
 
 				if (StrUtils.findSpecialCharacters(fileName)) {
-					res = new Response<FileInfo>(false, "文件名不能包含特殊字符");
+					res = new Response(false, "文件名不能包含特殊字符");
 					return res;
 				}
 
@@ -92,14 +90,14 @@ public class FileUtils {
 																			// height
 																			// 为空时传入null
 				// 上传成功后，把保存到数据库的文件相对路径:原文件名:文件的MIME类型以逗号隔开返回
-				res = new Response<FileInfo>(true, "上传成功", new FileInfo(dbFileName, fileName, fileMimeType));
+				res = new Response(true, "上传成功", new FileInfo(dbFileName, fileName, fileMimeType));
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				res = new Response<FileInfo>(false, "上传失败");
+				res = new Response(false, "上传失败");
 			}
 		} else {
-			res = new Response<FileInfo>(false, "上传失败");
+			res = new Response(false, "上传失败");
 		}
 		return res;
 	}
@@ -386,13 +384,13 @@ public class FileUtils {
 	 */
 	public static String getMimeType(byte[] data) {
 		String mimeType = "--";
-		MagicMatch match = null;
+		/*MagicMatch match = null;
 		try {
 			match = Magic.getMagicMatch(data);
 			mimeType = "-" + match.getMimeType().toLowerCase() + "-";
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		return mimeType;
 	}
 	
@@ -408,12 +406,12 @@ public class FileUtils {
 	 * @param size 压缩图片文件大小
 	 * @return Response
 	 */
-	public static Response<FileInfo> thumbnailFile(MultipartFile file, String saveDir,
+	public static Response thumbnailFile(MultipartFile file, String saveDir,
 			String fileType, Long fileSize, int width, int height) {
 		//上传原图
-		Response<FileInfo> res = fileUpload(file, saveDir, fileType, fileSize);
+		Response res = fileUpload(file, saveDir, fileType, fileSize);
 		
-		File fromPic = new File(saveDir + File.separator + res.getResult().getDbFileName());
+		File fromPic = new File(saveDir + File.separator + ((FileInfo) res.getResult()).getDbFileName());
 		BufferedImage image;
 		try {
 			image = ImageIO.read(fromPic);
@@ -430,9 +428,9 @@ public class FileUtils {
 			}
 			if(imageWidth <= 740) {
 				//原图
-				Thumbnails.of(image).outputQuality(0.25f).size(imageWidth,imageHeitht).toFile(new File(caseDetail, res.getResult().getDbFileName()));
+				Thumbnails.of(image).outputQuality(0.25f).size(imageWidth,imageHeitht).toFile(new File(caseDetail, ((FileInfo) res.getResult()).getDbFileName()));
 			}else {
-				Thumbnails.of(image).outputQuality(0.25f).size(740, (int)((float)740*imageHeitht/imageWidth)).toFile(new File(caseDetail, res.getResult().getDbFileName()));
+				Thumbnails.of(image).outputQuality(0.25f).size(740, (int)((float)740*imageHeitht/imageWidth)).toFile(new File(caseDetail, ((FileInfo) res.getResult()).getDbFileName()));
 			}
 			
 			
@@ -451,7 +449,7 @@ public class FileUtils {
 			} else {  
 			    builder = Thumbnails.of(image).outputQuality(0.25f).size(width, height);  
 			}  
-			builder.toFile(new File(caseList, res.getResult().getDbFileName()));  
+			builder.toFile(new File(caseList, ((FileInfo) res.getResult()).getDbFileName()));  
 			
 		} catch (IOException e) {
 			e.printStackTrace();

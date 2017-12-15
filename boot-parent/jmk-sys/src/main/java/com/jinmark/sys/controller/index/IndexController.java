@@ -1,12 +1,9 @@
 package com.jinmark.sys.controller.index;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +13,6 @@ import com.jinmark.core.Constants;
 import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysUser;
 import com.jinmark.sys.service.permission.SysPermissionServiceI;
-import com.jinmark.sys.service.permission.SysUserServiceI;
 
 /**
  * 
@@ -29,7 +25,7 @@ import com.jinmark.sys.service.permission.SysUserServiceI;
 public class IndexController {
 	
 	@Autowired
-	private SysUserServiceI userService;
+	private SysPermissionServiceI permissionService;
 	
 	/**
 	 * 
@@ -42,9 +38,8 @@ public class IndexController {
 	 * @throws
 	 */
 	@RequestMapping("/")
-	public String indexPage(Model model) {
-		Subject subject = SecurityUtils.getSubject();
-		List<SysPermission> menus = userService.findMenus(subject.getPrincipal().toString());
+	public String indexPage(Model model, HttpSession session) {
+		List<SysPermission> menus = permissionService.findUserMenus(((SysUser)session.getAttribute(Constants.CURRENT_USER)).getId());
 		model.addAttribute("menus", menus);
 		return "index";
 	}

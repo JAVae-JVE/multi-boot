@@ -31,15 +31,16 @@
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
                         <div class="widget am-cf">
                             <div class="widget-head am-cf">
-                                <div class="widget-title am-fl">新增菜单</div>
+                                <div class="widget-title am-fl" th:text="${perm_id}? '编辑菜单' : '新增菜单'">新增菜单</div>
                             </div>
                             <div class="widget-body am-fr">
 
                                 <form id="menu-form" class="am-form tpl-form-border-form tpl-form-border-br">
+                                    <input type="hidden" id="menu-id" th:value="${perm_id}"/>
                                     <div class="am-form-group">
                                         <label for="menu-name" class="am-u-sm-3 am-form-label">菜单名称<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="menu-name" placeholder="输入菜单名称（2-6个字符）" data-validation-message="输入菜单名称（2-6个字符）" minlength="2" maxlength="6" required>
+                                            <input type="text" class="tpl-form-input" id="menu-name" placeholder="输入菜单名称（2-20个字符）" data-validation-message="输入菜单名称（2-20个字符）" minlength="2" maxlength="20" required>
                                         </div>
                                     </div>
                                     
@@ -58,39 +59,33 @@
                                         <label for="menu-p" class="am-u-sm-3 am-form-label">父级菜单<span>*</span></label>
                                         <div class="am-u-sm-9">
                                             <select id="menu-p" data-am-selected="{maxHeight: 200}" data-validation-message="选择父级菜单" required>
-											  <!-- <option value="-1">|—根菜单</option>
-											  <option value="a" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—首页</option>
-											  <option value="b">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—权限管理</option>
-											  <option value="b-a" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—用户</option>
-											  <option value="b-b" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—角色</option>
-											  <option value="b-c" disabled>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|—菜单</option> -->
 											</select>
 											<br>
                                         </div>
                                     </div>
 
                                     <div class="am-form-group">
-                                        <label for="menu-perm" class="am-u-sm-3 am-form-label">权限字符串</label>
+                                        <label for="menu-perm" class="am-u-sm-3 am-form-label">权限字符串<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
                                             <input type="text" class="tpl-form-input" id="menu-perm" maxlength="20" placeholder="输入权限字符串（20个字符以内）" data-validation-message="输入权限字符串（20个字符以内）">
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="menu-url" class="am-u-sm-3 am-form-label">URL地址</label>
+                                        <label for="menu-url" class="am-u-sm-3 am-form-label">URL地址<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
                                             <input type="text" class="tpl-form-input" id="menu-url" maxlength="100" placeholder="输入URL地址（100个字符以内）" data-validation-message="输入URL地址（100个字符以内）">
                                         </div>
                                     </div>
                                     <div class="am-form-group">
-                                        <label for="menu-icon" class="am-u-sm-3 am-form-label">菜单图标class</label>
+                                        <label for="menu-icon" class="am-u-sm-3 am-form-label">菜单图标class<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
                                             <input type="text" class="tpl-form-input" id="menu-icon" maxlength="50" placeholder="输入菜单图标class（50个字符以内）" data-validation-message="输入菜单图标class（50个字符以内）">
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="menu-sort" class="am-u-sm-3 am-form-label">菜单顺序</label>
+                                        <label for="menu-sort" class="am-u-sm-3 am-form-label">菜单顺序<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
                                             <input type="number" class="tpl-form-input" id="menu-sort" min="1" value="1" placeholder="输入菜单顺序（大于1的整数）" data-validation-message="输入菜单顺序（大于1的整数）">
                                         </div>
@@ -116,36 +111,90 @@
     <script th:src="@{/js/app.js}"></script>
 	<script type="text/javascript">
 		$(function(){
+			//初始化编辑页面信息
+			initData();
 			formValidate('menu-form', true, function() {
-				CommonUtil.post('',false,{},function(re) {
-					if(2/1 == 2) {
-						parent.SweetAlert(true, "操作成功！");
-						history.go(-1);
-						location.reload();
+				var param = {
+						"id" : $("#menu-id").val(),
+						"name" : $("#menu-name").val(),
+						"resourceType" : $("#menu-type").val(),
+						"url" : $("#menu-url").val(),
+						"permission" : $("#menu-perm").val(),
+						"parentId" : $("#menu-p").val(),
+						"priority" : $("#menu-sort").val(),
+						"iconClass" : $("#menu-icon").val()	
+				};
+				var url = '/perm/create';
+				if(!CommonUtil.isEmpty(param.id)) {//编辑
+					url = '/perm/update';
+				}
+				CommonUtil.post(url,false,param,function(re) {
+					if(re.success) {
+						parent.SweetAlert(true, re.msg);
+						jumpUrl('perm/list');
 					}else {
-						parent.SweetAlert(false, "删除失败！");
+						parent.SweetAlert(false, re.msg);
 					}
+	    		}, function(XMLHttpRequest, textStatus, errorThrown) {
+	    			parent.SweetAlert(false, CommonUtil.isEmpty(param.id) ? "新增失败" : "");
 	    		})
 			});
 			
 			//选择菜单类型时初始化父级菜单
 			$("#menu-type").change(function() {
-				var html = '';
-				CommonUtil.post('/perm/parent_' + $(this).val(), false, null, function(re) {
+				initParentMenu($(this).val(), null);
+			});
+			
+		});
+		
+		//初始化编辑页面信息
+		function initData() {
+			if(!CommonUtil.isEmpty($("#menu-id").val())) {
+				CommonUtil.post('/perm/get_' + $("#menu-id").val(), false, null, function(re) {
 					if(re.success) {
-						$.each(re.result, function(i, n) {
-							if(n.disabled) {
-								html += '<option value="' + n.id + '" disabled>'+ n.name +'</option>';
+						$("#menu-name").val(re.result.name);
+						$("#menu-perm").val(re.result.permission);
+						$("#menu-url").val(re.result.url);
+						$("#menu-icon").val(re.result.iconClass);
+						$("#menu-sort").val(re.result.priority);
+						var op = $("#menu-type").find('option');
+						$.each(op, function(i, n) {
+							if($(n).attr('value') == re.result.resourceType) {
+								$(n).replaceWith('<option value="' + $(n).attr('value') + '" selected>' + $(n).text() + '</option>');
+								initParentMenu($(n).attr('value'), re.result.parentId == null ? '-1' : re.result.parentId);
+								return false;
+							}
+						});
+						
+					} else {
+						parent.SweetAlert(false, re.msg);
+					}
+				}, function(XMLHttpRequest, textStatus, errorThrown) {
+					parent.SweetAlert(false, "数据加载失败");
+				});
+			}
+		}
+		
+		//初始化父级菜单
+		function initParentMenu(menuType, selectItem) {
+			var html = '';
+			CommonUtil.post('/perm/parent_' + menuType, false, null, function(re) {
+				if(re.success) {
+					$.each(re.result, function(i, n) {
+						if(n.disabled) {
+							html += '<option value="' + n.id + '" disabled>'+ n.name +'</option>';
+						}else {
+							if(selectItem != null && selectItem == n.id) {
+								html += '<option value="' + n.id + '" selected>'+ n.name +'</option>';
 							}else {
 								html += '<option value="' + n.id + '">'+ n.name +'</option>';
 							}
-						})
-					}
-	    		});
-			console.log(html);
-				$("#menu-p").html(html);  
-			});
-		});
+						}
+					})
+				}
+    		});
+			$("#menu-p").html(html);  
+		}
 		
 	</script>
 </body>

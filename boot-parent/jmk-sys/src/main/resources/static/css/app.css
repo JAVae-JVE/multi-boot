@@ -1257,7 +1257,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 	border-radius: 4px;
 }
 .theme-white .left-sidebar::-webkit-scrollbar {
-	width: 4px;
+	width: 0px;
 	background-color: #E9ECF3;
 }
 
@@ -1881,7 +1881,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 	border-radius: 4px;
 }
 .theme-black .left-sidebar::-webkit-scrollbar {
-	width: 4px;
+	width: 0px;
 	background-color: #3A4144;
 }
 

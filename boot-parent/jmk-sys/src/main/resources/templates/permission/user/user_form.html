@@ -36,46 +36,42 @@
                             </div>
                             <div class="widget-body am-fr">
 
-                                <form class="am-form tpl-form-border-form tpl-form-border-br">
+                                <form id="user-form" class="am-form tpl-form-border-form tpl-form-border-br">
+                                    <input type="hidden" id="user-id" th:value="${user.id}">
                                     <div class="am-form-group">
-                                        <label for="user-uesrname" class="am-u-sm-3 am-form-label">账&nbsp;&nbsp;&nbsp;号</label>
+                                        <label for="user-uesrname" class="am-u-sm-3 am-form-label">账&nbsp;&nbsp;&nbsp;号<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="user-uesrname" placeholder="输入账号（4-20个字符）" data-validation-message="输入账号（4-20个字符）" minlength="4" maxlength="20" required>
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="user-uesrname" class="am-u-sm-3 am-form-label">密&nbsp;&nbsp;&nbsp;码</label>
+                                        <label for="user-password" class="am-u-sm-3 am-form-label">密&nbsp;&nbsp;&nbsp;码<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="password" class="tpl-form-input" value="******" disabled>
-                                            <small>默认123456，为了用户安全，登陆后请及时修改密码。</small>
+                                            <input type="password" class="tpl-form-input" value="********" disabled>
+                                            <small>默认12345678，为了用户安全，登陆后请及时修改密码。</small>
                                         </div>
                                     </div>
 
                                     <div class="am-form-group">
-                                        <label for="user-name" class="am-u-sm-3 am-form-label">姓&nbsp;&nbsp;&nbsp;名</label>
+                                        <label for="user-name" class="am-u-sm-3 am-form-label">姓&nbsp;&nbsp;&nbsp;名<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="输入姓名（至多10个字符）" data-validation-message="输入姓名（至多10个字符）" maxlength="10">
                                         </div>
                                     </div>
                                     <div class="am-form-group">
-                                        <label for="user-phone" class="am-u-sm-3 am-form-label">手机号</label>
+                                        <label for="user-mobile" class="am-u-sm-3 am-form-label">手机号<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input js-ajax-validate" id="user-mobile" maxlength="11" placeholder="输入正确格式的11位手机号" data-validation-message="输入正确格式的11位手机号" data-validate-async>
                                         </div>
                                     </div>
 
                                     <div class="am-form-group">
-                                        <label for="user-role" class="am-u-sm-3 am-form-label">角&nbsp;&nbsp;&nbsp;色</label>
+                                        <label for="user-role" class="am-u-sm-3 am-form-label">角&nbsp;&nbsp;&nbsp;色<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <select data-am-selected="{dropUp: 1}" style="display: none;">
-											  <option value="-1">请选择角色</option>
-											  <option value="a">-The.CC</option>
-											  <option value="b">夕风色</option>
-											  <option value="o">Orange</option>
+                                            <select id="user-role" data-am-selected="{dropUp: 1}" data-validation-message="选择角色" required>
+											  <option value="">选择角色</option>
+											  <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
 											</select>
 
                                         </div>
@@ -85,7 +81,7 @@
                                         <div class="am-u-sm-9 am-u-sm-push-3">
                                         	<button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success go_history">取消</button>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                            <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
                                         </div>
                                     </div>
                                 </form>
@@ -100,7 +96,92 @@
     <script th:src="@{/js/amazeui.datatables.min.js}"></script>
     <script th:src="@{/js/dataTables.responsive.min.js}"></script>
     <script th:src="@{/js/app.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('#user-form').validator({
+				validate: function(validity) {
+				 // Ajax 验证
+			      if ($(validity.field).is('.js-ajax-validate')) {
+			        // 异步操作必须返回 Deferred 对象
+			        return $.ajax({
+			          type:"POST",
+			          url: '/common/v_m',
+			          cache: false,
+			          async: false,
+					  data: {"userId" : $("user-id").val(), "mobile" : $(validity.field).val()}
+			        }).then(function(data) {
+			        	 // Ajax 请求成功，根据服务器返回的信息，设置 validity.valid = true or flase
+			        	 if(data.success) {
+			         		validity.valid = true;
+						}else {
+							$(validity.field).attr("data-validation-message", data.msg);
+							validity.valid = false;
+						}
+			        	return validity;
+			        }, function() {
+			        	// Ajax 请求失败，根据需要决定验证是否通过，然后返回 validity
+			        	validity.valid = false;
+			          	return validity;
+			        });
+			      }
+				},
+			    onValid: function(validity) {
+			      $(validity.field).closest('.am-form-group').find('small').hide();
+			    },
 
+			    onInValid: function(validity) {
+			      var $field = $(validity.field);
+			      var $alert = $field.next('small');
+			      // 使用自定义的提示信息 或 插件内置的提示信息
+			      var msg = $field.attr('data-validation-message') || this.getValidationMessage(validity);
+				  console.info(msg);
+			      if (!$alert.length) {
+			        $alert = $('<small class="error-tip"></small>').hide().
+			          appendTo($field.parent());
+			      }
+
+			      $alert.html(msg).show();
+			    },
+			    submit: function() {
+			    	var formValidity = this.isFormValid();
+
+			        $.when(formValidity).then(function() {
+			          // 验证成功的逻辑
+			          exeFunction();
+			        }, function() {
+			          // 验证失败的逻辑
+			        });
+			    	return false;
+			    }
+			});
+		});
+		
+		//提交表单方法
+		function exeFunction() {
+			/* var param = {
+					"id" : $("#menu-id").val(),
+					"name" : $("#menu-name").val(),
+					"resourceType" : $("#menu-type").val(),
+					"url" : $("#menu-url").val(),
+					"permission" : $("#menu-perm").val(),
+					"parentId" : $("#menu-p").val(),
+					"priority" : $("#menu-sort").val(),
+					"iconClass" : $("#menu-icon").val()	
+			};
+			CommonUtil.post('/perm/create',false,param,function(re) {
+				if(re.success) {
+					parent.SweetAlert(true, re.msg);
+					history.go(-1);
+					location.reload();
+				}else {
+					parent.SweetAlert(false, re.msg);
+				}
+    		}) */
+    		
+    		alert("kjkjkj");
+		}
+		
+	</script>
 </body>
 
 </html>
