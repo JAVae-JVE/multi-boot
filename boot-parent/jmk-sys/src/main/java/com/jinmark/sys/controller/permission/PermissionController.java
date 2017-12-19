@@ -120,7 +120,7 @@ public class PermissionController {
 	@RequestMapping("/create")
 	@ResponseBody
 	public Response permCreate(@Valid MenuRequest menuRequest, BindingResult result) {
-		Response res = new Response("");
+		Response res = new Response();
 		if(result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();  
             for (ObjectError error : list) { 
@@ -145,7 +145,7 @@ public class PermissionController {
 	@RequestMapping("/update")
 	@ResponseBody
 	public Response permUpdate(@Valid MenuRequest menuRequest, BindingResult result) {
-		Response res = new Response("");
+		Response res = new Response();
 		if(StringUtils.isBlank(menuRequest.getId())) {
 			res.setMsg("未传入修改对象的唯一标识");
 		} else if(result.hasErrors()) {

@@ -58,4 +58,35 @@ public class CommonServiceImpl implements CommonServiceI {
 		return res;
 	}
 
+	@Override
+	public Response validateUsername(String userId, String username) {
+		Response res = new Response();
+		if(StringUtils.isBlank(username) || username.length() < 4 || username.length() > 20) {
+			res.setMsg("输入账号（4-20个字符）");
+			return res;
+		}
+		
+		SysUser user = userRepository.findByUsername(username);
+		if(StringUtils.isBlank(userId)) {//新增
+			if(user == null) {
+				res.setSuccess(true);//验证通过
+			}else {
+				res.setSuccess(false);
+				res.setMsg("账号已存在");
+			}
+		} else {//修改
+			if(user == null) {
+				res.setSuccess(true);//验证通过
+			}else {
+				if(userId.equals(user.getId())) {
+					res.setSuccess(true);
+				}else {
+					res.setSuccess(false);
+					res.setMsg("账号已存在");
+				}
+			}
+		}
+		return res;
+	}
+
 }

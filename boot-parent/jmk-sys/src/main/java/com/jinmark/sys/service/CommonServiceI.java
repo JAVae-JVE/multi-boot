@@ -22,4 +22,16 @@ public interface CommonServiceI {
 	 */
 	Response validateMobile(String userId, String mobile);
 
+	/**
+	 * 
+	 * @Title validateUsername
+	 * @Description TODO(验证账号是否唯一) 
+	 * @param userId
+	 * @param username
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response validateUsername(String userId, String username);
+
 }

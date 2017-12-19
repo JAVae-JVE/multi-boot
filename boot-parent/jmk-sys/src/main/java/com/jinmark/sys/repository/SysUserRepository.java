@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -40,4 +41,8 @@ public interface SysUserRepository extends JpaRepository<SysUser, String> {
 	 * @throws
 	 */
 	SysUser findByMobile(String mobile);
+	
+	@Modifying 
+	@Query("update SysUser o set o.name = :#{#sysUser.name}, o.mobile = :#{#sysUser.mobile} where o.id = :#{#sysUser.id}") 
+	void updateSysUser(@Param("sysUser") SysUser sysUser);
 }

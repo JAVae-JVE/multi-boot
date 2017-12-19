@@ -15,8 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.jinmark.core.Constants;
 import com.jinmark.core.bean.Response;
 import com.jinmark.sys.config.shiro.PasswordHelper;

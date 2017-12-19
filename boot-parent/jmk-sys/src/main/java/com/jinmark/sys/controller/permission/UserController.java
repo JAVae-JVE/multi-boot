@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jinmark.core.bean.Pages;
 import com.jinmark.core.bean.Response;
@@ -79,6 +80,7 @@ public class UserController {
 	 */
 	@RequestMapping("/edit_{id}")
 	public String userEdit(@PathVariable("id") String id, Model model) {
+		model.addAttribute("userId", id);
 		model.addAttribute("roles", roleService.findRoles());
 		return "permission/user/user_form";
 	}
@@ -94,15 +96,16 @@ public class UserController {
 	 * @throws
 	 */
 	@RequestMapping("/create")
+	@ResponseBody
 	public Response userCreate(@Valid UserRequest userRequest, BindingResult result) {
-		Response res = new Response("");
+		Response res = new Response();
 		if(result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();  
             for (ObjectError error : list) { 
             	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
             }  
 		}else {
-			
+			res = userService.saveSysUser(userRequest);
 		}
 		
 		return res;
@@ -119,20 +122,51 @@ public class UserController {
 	 * @throws
 	 */
 	@RequestMapping("/update")
+	@ResponseBody
 	public Response userUpdate(@Valid UserRequest userRequest, BindingResult result) {
-		Response res = new Response("");
+		Response res = new Response();
 		if(result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();  
             for (ObjectError error : list) { 
             	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
             }  
 		}else {
-			
+			res = userService.saveSysUser(userRequest);
 		}
 		
 		return res;
 	}
 	
+	/**
+	 * 
+	 * @Title userGet
+	 * @Description TODO(根据用户id获取用户) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/get_{id}")
+	@ResponseBody
+	public Response userGet(@PathVariable("id") String id) {
+		return userService.getSysUser(id);
+	}
+	
+	
+	/**
+	 * 
+	 * @Title userDelete
+	 * @Description TODO(删除用户) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	/*@RequestMapping("/delete")
+	@ResponseBody
+	public Response userDelete(String[] ids) {
+		return userService.deleteSysUser(id);
+	}*/
 	/**
 	 * 
 	 * @Title pswdSetting

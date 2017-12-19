@@ -36,4 +36,20 @@ public class CommonController {
 	public Response validateMobile(String userId, String mobile) {
 		return commonService.validateMobile(userId, mobile);
 	}
+	
+	/**
+	 * 
+	 * @Title validateUsername
+	 * @Description TODO(验证账号是否唯一) 
+	 * @param userId
+	 * @param username
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/v_u")
+	@ResponseBody
+	public Response validateUsername(String userId, String username) {
+		return commonService.validateUsername(userId, username);
+	}
 }
