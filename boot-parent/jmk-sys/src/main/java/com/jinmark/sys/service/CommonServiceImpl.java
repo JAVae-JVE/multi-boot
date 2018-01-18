@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.jinmark.core.bean.Response;
 import com.jinmark.core.utils.RegexUtil;
+import com.jinmark.sys.domain.SysRole;
 import com.jinmark.sys.domain.SysUser;
+import com.jinmark.sys.repository.SysRoleRepository;
 import com.jinmark.sys.repository.SysUserRepository;
 
 /**
@@ -21,6 +23,8 @@ public class CommonServiceImpl implements CommonServiceI {
 
 	@Autowired
 	private SysUserRepository userRepository;
+	@Autowired
+	private SysRoleRepository roleRepository;
 	
 	@Override
 	public Response validateMobile(String userId, String mobile) {
@@ -83,6 +87,68 @@ public class CommonServiceImpl implements CommonServiceI {
 				}else {
 					res.setSuccess(false);
 					res.setMsg("账号已存在");
+				}
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public Response validateRoleName(String roleId, String roleName) {
+		Response res = new Response();
+		if(StringUtils.isBlank(roleName) || roleName.length() < 2 || roleName.length() > 20) {
+			res.setMsg("输入角色名称（2-20个字符）");
+			return res;
+		}
+		
+		SysRole role = roleRepository.findByRoleName(roleName);
+		if(StringUtils.isBlank(roleId)) {//新增
+			if(role == null) {
+				res.setSuccess(true);//验证通过
+			}else {
+				res.setSuccess(false);
+				res.setMsg("角色名称已存在");
+			}
+		} else {//修改
+			if(role == null) {
+				res.setSuccess(true);//验证通过
+			}else {
+				if(roleId.equals(role.getId())) {
+					res.setSuccess(true);
+				}else {
+					res.setSuccess(false);
+					res.setMsg("角色名称已存在");
+				}
+			}
+		}
+		return res;
+	}
+
+	@Override
+	public Response validateRoleFlag(String roleId, String roleFlag) {
+		Response res = new Response();
+		if(StringUtils.isBlank(roleFlag) || roleFlag.length() < 2 || roleFlag.length() > 20) {
+			res.setMsg("输入角色标识（2-20个字符）");
+			return res;
+		}
+		
+		SysRole role = roleRepository.findByRoleFlag(roleFlag);
+		if(StringUtils.isBlank(roleId)) {//新增
+			if(role == null) {
+				res.setSuccess(true);//验证通过
+			}else {
+				res.setSuccess(false);
+				res.setMsg("角色标识已存在");
+			}
+		} else {//修改
+			if(role == null) {
+				res.setSuccess(true);//验证通过
+			}else {
+				if(roleId.equals(role.getId())) {
+					res.setSuccess(true);
+				}else {
+					res.setSuccess(false);
+					res.setMsg("角色标识已存在");
 				}
 			}
 		}

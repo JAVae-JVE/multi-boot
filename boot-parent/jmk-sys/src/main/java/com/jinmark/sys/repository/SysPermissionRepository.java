@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import com.jinmark.sys.domain.SysPermission;
 
 public interface SysPermissionRepository extends JpaRepository<SysPermission, String> {
@@ -68,11 +69,10 @@ public interface SysPermissionRepository extends JpaRepository<SysPermission, St
 	 */
 	@Query(value = "SELECT p.* FROM sys_user_role u_r LEFT JOIN sys_role_permission r_p ON u_r.role_id = r_p.role_id LEFT JOIN sys_permission p ON r_p.permission_id = p.id WHERE u_r.user_id = ?1 AND p.parent_id = ?2 AND p.resource_type = 'menu' ORDER BY p.priority", nativeQuery = true)
 	List<SysPermission> findUserChildrenMenus(String userId, String parentId);
-	
 	/**
 	 * 
 	 * @Title getById
-	 * @Description TODO(根据id获取菜单) 
+	 * @Description TODO(根据id获取对象) 
 	 * @param id
 	 * @return
 	 * @return SysPermission  返回类型 

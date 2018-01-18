@@ -33,5 +33,27 @@ public interface CommonServiceI {
 	 * @throws
 	 */
 	Response validateUsername(String userId, String username);
+	/**
+	 * 
+	 * @Title validateRoleName
+	 * @Description TODO(验证角色名称唯一性) 
+	 * @param roleId
+	 * @param roleName
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response validateRoleName(String roleId, String roleName);
+	/**
+	 * 
+	 * @Title validateRoleFlag
+	 * @Description TODO(验证角色标识唯一性) 
+	 * @param roleId
+	 * @param roleFlag
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response validateRoleFlag(String roleId, String roleFlag);
 
 }

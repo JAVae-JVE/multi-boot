@@ -47,6 +47,15 @@ public class SysRole implements java.io.Serializable {
 	}
 
 
+	public SysRole(String id, String roleName, String roleFlag, String description) {
+		super();
+		this.id = id;
+		this.roleName = roleName;
+		this.roleFlag = roleFlag;
+		this.description = description;
+	}
+
+
 	public SysRole(String roleName, String roleFlag, boolean available, Date createtime) {
 		this.roleName = roleName;
 		this.roleFlag = roleFlag;

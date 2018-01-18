@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jinmark.core.bean.Pages;
@@ -125,7 +127,9 @@ public class UserController {
 	@ResponseBody
 	public Response userUpdate(@Valid UserRequest userRequest, BindingResult result) {
 		Response res = new Response();
-		if(result.hasErrors()) {
+		if(StringUtils.isBlank(userRequest.getId())) {
+			res.setMsg("未传入修改对象的唯一标识");
+		} else if(result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();  
             for (ObjectError error : list) { 
             	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
@@ -157,16 +161,16 @@ public class UserController {
 	 * 
 	 * @Title userDelete
 	 * @Description TODO(删除用户) 
-	 * @param id
+	 * @param ids
 	 * @return
 	 * @return Response  返回类型 
 	 * @throws
 	 */
-	/*@RequestMapping("/delete")
+	@RequestMapping("/delete")
 	@ResponseBody
-	public Response userDelete(String[] ids) {
-		return userService.deleteSysUser(id);
-	}*/
+	public Response userDelete(@RequestParam("ids[]") List<String> ids) {
+		return userService.deleteSysUser(ids);
+	}
 	/**
 	 * 
 	 * @Title pswdSetting

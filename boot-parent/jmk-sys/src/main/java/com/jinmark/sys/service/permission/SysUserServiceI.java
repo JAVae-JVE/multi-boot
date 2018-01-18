@@ -76,4 +76,15 @@ public interface SysUserServiceI {
 	 * @throws
 	 */
 	Response getSysUser(String id);
+	
+	/**
+	 * 
+	 * @Title deleteSysUser
+	 * @Description TODO(删除用户) 
+	 * @param ids
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response deleteSysUser(List<String> ids);
 }

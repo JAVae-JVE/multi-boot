@@ -4,14 +4,19 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jinmark.core.bean.Response;
+import com.jinmark.sys.domain.SysRole;
+import com.jinmark.sys.service.permission.SysRoleServiceI;
 import com.jinmark.sys.vo.permission.RoleRequest;
 
 /**
@@ -24,6 +29,9 @@ import com.jinmark.sys.vo.permission.RoleRequest;
 @Controller
 @RequestMapping("/role")
 public class RoleController {
+	
+	@Autowired
+	private SysRoleServiceI roleService;
 	/**
 	 * 
 	 * @Title roleList
@@ -35,6 +43,7 @@ public class RoleController {
 	 */
 	@RequestMapping("/list")
 	public String roleList(Model model) {
+		model.addAttribute("roleList", roleService.findRoleList());
 		return "permission/role/role_view";
 	}
 	
@@ -62,9 +71,25 @@ public class RoleController {
 	 * @return String  返回类型 
 	 * @throws
 	 */
-	@RequestMapping("/edit_{roleId}")
-	public String roleEdit(@PathVariable String roleId, Model model) {
+	@RequestMapping("/edit_{id}")
+	public String roleEdit(@PathVariable String id, Model model) {
+		model.addAttribute("roleId", id);
 		return "permission/role/role_form";
+	}
+	
+	/**
+	 * 
+	 * @Title roleGet
+	 * @Description TODO(获取单个角色) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/get_{id}")
+	@ResponseBody
+	public Response roleGet(@PathVariable("id") String id) {
+		return roleService.getRole(id);
 	}
 	
 	/**
@@ -77,6 +102,8 @@ public class RoleController {
 	 * @return Response  返回类型 
 	 * @throws
 	 */
+	@RequestMapping("/create")
+	@ResponseBody
 	public Response roleCreate(@Valid RoleRequest roleRequest, BindingResult result) {
 		Response res = new Response("");
 		if(result.hasErrors()) {
@@ -85,7 +112,8 @@ public class RoleController {
             	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
             }  
 		}else {
-			
+			SysRole role = new SysRole(null, roleRequest.getRoleName(), roleRequest.getRoleFlag(), roleRequest.getDescription());
+			res = roleService.saveRole(role);
 		}
 		
 		return res;
@@ -101,20 +129,40 @@ public class RoleController {
 	 * @return Response  返回类型 
 	 * @throws
 	 */
+	@RequestMapping("/update")
+	@ResponseBody
 	public Response roleUpdate(@Valid RoleRequest roleRequest, BindingResult result) {
 		Response res = new Response("");
-		if(result.hasErrors()) {
+		if(StringUtils.isBlank(roleRequest.getId())) {
+			res.setMsg("未传入修改对象的唯一标识");
+		} else if(result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();  
             for (ObjectError error : list) { 
             	res.setMsg(res.getMsg() + "[" + error.getDefaultMessage() + "]");
             }  
 		}else {
-			
+			SysRole role = new SysRole(roleRequest.getId(), roleRequest.getRoleName(), roleRequest.getRoleFlag(), roleRequest.getDescription());
+			res = roleService.saveRole(role);
 		}
 		
 		return res;
 	}
 	
+	
+	/**
+	 * 
+	 * @Title permDelete
+	 * @Description TODO(删除角色) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/delete_{id}")
+	@ResponseBody
+	public Response permDelete(@PathVariable("id") String id) {
+		return roleService.deleteRole(id);
+	}
 	
 	/**
 	 * 
@@ -126,8 +174,8 @@ public class RoleController {
 	 * @return String  返回类型 
 	 * @throws
 	 */
-	@RequestMapping("/grant_page")
-	public String grantPage(String roleId, Model model) {
+	@RequestMapping("/grant_page_{id}")
+	public String grantPage(@PathVariable("id") String id, Model model) {
 		return "permission/role/role_grant";
 	}
 }

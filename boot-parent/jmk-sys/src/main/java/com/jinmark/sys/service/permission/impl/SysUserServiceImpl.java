@@ -29,6 +29,8 @@ import com.jinmark.sys.vo.permission.QueryUserRequest;
 import com.jinmark.sys.vo.permission.UserRequest;
 import com.jinmark.sys.vo.permission.UserResponse;
 
+import strman.Strman;
+
 @Service
 public class SysUserServiceImpl implements SysUserServiceI {
 	
@@ -127,7 +129,8 @@ public class SysUserServiceImpl implements SysUserServiceI {
 			//修改用户
 			userRepository.updateSysUser(user);
 			//修改角色
-			userRoleRepository.updateSysUserRoler(userRequest);
+			userRoleRepository.deleteSysUserRole(userRequest.getId());
+			userRoleRepository.save(new SysUserRole(new SysUser(userRequest.getId()), new SysRole(userRequest.getRoleId())));
 			res.setSuccess(true);
 			res.setMsg("编辑成功");
 		}
@@ -142,8 +145,29 @@ public class SysUserServiceImpl implements SysUserServiceI {
 		SysUser user = userRepository.findOne(id);
 		List<SysUserRole> ur = new ArrayList<>(user.getSysUserRoles());
 		UserResponse userResponse = new UserResponse(user.getId(), user.getName(),
-				user.getUsername(), user.isLocked(), user.getMobile(), ur.get(0).getSysRole().getId());
+				user.getUsername(), user.isLocked(), user.getMobile(), ur.size() == 0 ? "" : ur.get(0).getSysRole().getId());
 		res.setResult(userResponse);
+		return res;
+	}
+
+	@Transactional
+	@Override
+	public Response deleteSysUser(List<String> ids) {
+		Response res = new Response();
+		if(null == ids || ids.size() <= 0) {
+			res.setMsg("删除失败");
+			return res;
+		}
+		
+		//删除用户-角色关联
+		String [] array = ids.toArray(new String[]{});
+		String userIds = Strman.join(array, ",");
+		userRoleRepository.deleteSysUserRole(userIds);
+		
+		//删除用户
+		userRepository.deleteByIdIn(ids);
+		res.setSuccess(true);
+		res.setMsg("删除成功");
 		return res;
 	}
 

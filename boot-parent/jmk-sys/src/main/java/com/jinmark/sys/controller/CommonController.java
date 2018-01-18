@@ -52,4 +52,36 @@ public class CommonController {
 	public Response validateUsername(String userId, String username) {
 		return commonService.validateUsername(userId, username);
 	}
+	
+	/**
+	 * 
+	 * @Title validateRoleName
+	 * @Description TODO(验证角色名称唯一性) 
+	 * @param roleId
+	 * @param roleName
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/v_role_name")
+	@ResponseBody
+	public Response validateRoleName(String roleId, String roleName) {
+		return commonService.validateRoleName(roleId, roleName);
+	}
+	
+	/**
+	 * 
+	 * @Title validateRoleFlag
+	 * @Description TODO(验证角色标识唯一性) 
+	 * @param roleId
+	 * @param roleFlag
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/v_role_flag")
+	@ResponseBody
+	public Response validateRoleFlag(String roleId, String roleFlag) {
+		return commonService.validateRoleFlag(roleId, roleFlag);
+	}
 }

@@ -3,7 +3,9 @@ package com.jinmark.sys.service.permission;
 import java.util.List;
 import java.util.Set;
 
+import com.jinmark.core.bean.Response;
 import com.jinmark.core.bean.Selected;
+import com.jinmark.sys.domain.SysRole;
 
 
 public interface SysRoleServiceI {
@@ -28,4 +30,43 @@ public interface SysRoleServiceI {
 	 * @throws
 	 */
 	List<Selected> findRoles();
+	/**
+	 * 
+	 * @Title findRoleList
+	 * @Description TODO(获取角色列表) 
+	 * @return
+	 * @return List<SysRole>  返回类型 
+	 * @throws
+	 */
+	List<SysRole> findRoleList();
+	/**
+	 * 
+	 * @Title saveRole
+	 * @Description TODO(保存角色) 
+	 * @param role
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response saveRole(SysRole role);
+	/**
+	 * 
+	 * @Title getRole
+	 * @Description TODO(根据角色id获取角色对象) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response getRole(String id);
+	/**
+	 * 
+	 * @Title deleteRole
+	 * @Description TODO(删除角色) 
+	 * @param id
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response deleteRole(String id);
 }

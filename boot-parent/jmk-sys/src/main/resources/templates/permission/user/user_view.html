@@ -52,7 +52,7 @@
                                             <button onclick="jumpUrl('user/add');" type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
                                            <!--  <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
                                             <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button> -->
-                                            <button type="button" onclick="deleteUser();" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                                            <!-- <button type="button" onclick="deleteBatchUser();" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button> -->
                                         </div>
                                     </div>
                                 </div>
@@ -67,14 +67,14 @@
                             </div>
 
                             <div class="am-u-sm-12">
-                                <table width="100%" class="am-table am-table-compact am-table-striped am-table-hover tpl-table-black " id="example-r">
+                                <table id="data_table_" width="100%" class="am-table am-table-compact am-table-striped am-table-hover tpl-table-black">
                                     <thead>
                                         <tr>
-                                        	<th>
+                                        	<!-- <th>
                                         		<label class="am-checkbox am-success">
-												  <input type="checkbox" value="" data-am-ucheck>&nbsp;全选
+												  <input id="all_selected_" type="checkbox" data-am-ucheck>&nbsp;全选
 												</label>
-                                        	</th>
+                                        	</th> -->
                                         	<th>序号</th>
                                             <th>账号</th>
                                             <th>姓名</th>
@@ -87,16 +87,16 @@
                                     <tbody>
                                     	
                                         <tr th:each="user,state : ${userList}">
-                                        	<td>
+                                        	<!-- <td>
                                         		<label class="am-checkbox am-success">
 												  <input type="checkbox" value="" data-am-ucheck>
 												</label>
-                                        	</td>
+                                        	</td> -->
                                         	<td th:text="${state.index + 1}">1</td>
                                             <td th:text="${user.username}">Amaze UI 模式窗口</td>
                                             <td th:text="${user.name}">张鹏飞</td>
                                             <td th:text="${user.mobile}">张鹏飞</td>
-                                            <td th:text="${user.sysUserRoles[0].sysRole.roleName}">张鹏飞</td>
+                                            <td th:text="${not #lists.isEmpty(user.sysUserRoles)}? ${user.sysUserRoles[0].sysRole.roleName} : ''">张鹏飞</td>
                                             <td th:text="${#dates.format(user.createtime, 'yyyy-MM-dd HH:mm:ss')}">2016-09-26</td>
                                             <td>
                                                 <div class="tpl-table-black-operation">
@@ -106,7 +106,7 @@
                                                     <a href="javascript:;" th:onclick="|jumpUrl('user/edit_${user.id}');|">
                                                         <i class="am-icon-pencil"></i> 编辑
                                                     </a>
-                                                    <a href="javascript:;" class="tpl-table-black-operation-del">
+                                                    <a href="javascript:;" th:onclick="|deleteBatchUsers('${user.id}')|" class="tpl-table-black-operation-del">
                                                         <i class="am-icon-trash"></i> 删除
                                                     </a>
                                                 </div>
@@ -115,20 +115,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="am-u-lg-12 am-cf">
-
-                                <div class="am-fr">
-                                    <ul class="am-pagination tpl-pagination">
-                                        <li class="am-disabled"><a href="#">«</a></li>
-                                        <li class="am-active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">»</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <!-- 分页 -->
+    						<div th:replace="fragments/pagination :: pagination">Pagination</div>
                         </div>
                     </div>
                 </div>
@@ -142,16 +130,26 @@
     <script type="text/javascript" th:src="@{/js/dataTables.responsive.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/app.js}"></script>
 	<script type="text/javascript">
-		function deleteUser() {
-			/* parent.SweetComfirm("确定要删除记录吗？", function() {
-				if(2/1 == 3) {
-					parent.SweetAlert(true, "删除成功！");
-					location.href = location.href;
-				}else {
-					parent.SweetAlert(false, "删除失败！");
-				}
-			}); */
-			parent.SweetWarning("请选择删除的记录！");
+		//批量删除
+		function deleteBatchUsers(ids) {
+			if(CommonUtil.isEmpty(ids)) {
+				parent.SweetWarning("请选择删除的行记录！");
+			} else {
+				parent.SweetComfirm("确定要删除该记录吗？", function() {
+					var param = ids.split(',');
+					CommonUtil.post('/user/delete', false, {'ids': param}, function(re) {
+						if(re.success) {
+							parent.SweetAlert(true, re.msg);
+							location.reload();
+						}else {
+							parent.SweetAlert(false, re.msg);
+						}
+					}, function(XMLHttpRequest, textStatus, errorThrown) {
+		    			parent.SweetAlert(false, "删除失败");
+		    		});
+					
+				});
+			}
 		}
 	
 	</script>

@@ -42,7 +42,25 @@ public interface SysUserRepository extends JpaRepository<SysUser, String> {
 	 */
 	SysUser findByMobile(String mobile);
 	
+	/**
+	 * 
+	 * @Title updateSysUser
+	 * @Description TODO(修改用户) 
+	 * @param sysUser
+	 * @return void  返回类型 
+	 * @throws
+	 */
 	@Modifying 
 	@Query("update SysUser o set o.name = :#{#sysUser.name}, o.mobile = :#{#sysUser.mobile} where o.id = :#{#sysUser.id}") 
 	void updateSysUser(@Param("sysUser") SysUser sysUser);
+	
+	/**
+	 * 
+	 * @Title deleteByIdIn
+	 * @Description TODO(删除用户) 
+	 * @param ids
+	 * @return void  返回类型 
+	 * @throws
+	 */
+	void deleteByIdIn(List<String> ids);
 }

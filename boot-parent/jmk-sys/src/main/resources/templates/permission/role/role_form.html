@@ -32,32 +32,30 @@
                     <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
                         <div class="widget am-cf">
                             <div class="widget-head am-cf">
-                                <div class="widget-title am-fl">新增角色</div>
+                                <div class="widget-title am-fl" th:text="${roleId}? '编辑角色' : '新增角色'">新增角色</div>
                             </div>
                             <div class="widget-body am-fr">
 
-                                <form class="am-form tpl-form-border-form tpl-form-border-br">
+                                <form id="role-form" class="am-form tpl-form-border-form tpl-form-border-br">
+                                    <input type="hidden" id="role-id" th:value="${roleId}">
                                     <div class="am-form-group">
-                                        <label for="user-uesrname" class="am-u-sm-3 am-form-label">角色名称</label>
+                                        <label for="role-name" class="am-u-sm-3 am-form-label">角色名称<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="role-name" placeholder="输入角色名称（2-20个字符）" data-validation-message="输入角色名称（2-20个字符）" maxlength="20">
                                         </div>
                                     </div>
                                     
                                     <div class="am-form-group">
-                                        <label for="user-uesrname" class="am-u-sm-3 am-form-label">角色标识</label>
+                                        <label for="role-flag" class="am-u-sm-3 am-form-label">角色标识<span>*</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <input type="text" class="tpl-form-input" id="role-flag" placeholder="输入角色标识（2-20个字符）" data-validation-message="输入角色标识（2-20个字符）" maxlength="20">
                                         </div>
                                     </div>
 
                                     <div class="am-form-group">
-                                        <label for="user-name" class="am-u-sm-3 am-form-label">角色描述</label>
+                                        <label for="role-description" class="am-u-sm-3 am-form-label">角色描述<span>&nbsp;&nbsp;</span></label>
                                         <div class="am-u-sm-9">
-                                            <input type="text" class="tpl-form-input" id="user-name" placeholder="请输入标题文字">
-                                            <small>请填写标题文字10-20字左右。</small>
+                                            <textarea rows="5" id="role-description" placeholder="输入角色描述（至多100个字符）" maxlength="100"></textarea>
                                         </div>
                                     </div>
                                     
@@ -65,7 +63,7 @@
                                         <div class="am-u-sm-9 am-u-sm-push-3">
                                         	<button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success go_history">取消</button>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                            <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
                                         </div>
                                     </div>
                                 </form>
@@ -80,7 +78,142 @@
     <script th:src="@{/js/amazeui.datatables.min.js}"></script>
     <script th:src="@{/js/dataTables.responsive.min.js}"></script>
     <script th:src="@{/js/app.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			//初始化编辑页面信息
+			initData();
+			$('#role-form').validator({
+				validate: function(validity) {
+				 // Ajax 验证
+				  if ($(validity.field).is('#role-name')) {
+					  if(CommonUtil.isEmpty($(validity.field).val())) {
+						  validity.valid = false;
+				          return validity; 
+					  }
+			        // 异步操作必须返回 Deferred 对象
+			        return $.ajax({
+			          type:"POST",
+			          url: '/common/v_role_name',
+			          cache: false,
+			          async: false,
+					  data: {"roleId" : $("#role-id").val(), "roleName" : $(validity.field).val()}
+			        }).then(function(data) {
+			        	 // Ajax 请求成功，根据服务器返回的信息，设置 validity.valid = true or flase
+			        	 if(data.success) {
+			         		validity.valid = true;
+						}else {
+							$(validity.field).attr("data-validation-message", data.msg);
+							validity.valid = false;
+						}
+			        	return validity;
+			        }, function() {
+			        	// Ajax 请求失败，根据需要决定验证是否通过，然后返回 validity
+			        	validity.valid = false;
+			          	return validity;
+			        });
+			      }
+				 
+			      if ($(validity.field).is('#role-flag')) {
+			    	  if(CommonUtil.isEmpty($(validity.field).val())) {
+						  validity.valid = false;
+				          return validity; 
+					  }
+			        // 异步操作必须返回 Deferred 对象
+			        return $.ajax({
+			          type:"POST",
+			          url: '/common/v_role_flag',
+			          cache: false,
+			          async: false,
+					  data: {"roleId" : $("#role-id").val(), "roleFlag" : $(validity.field).val()}
+			        }).then(function(data) {
+			        	 // Ajax 请求成功，根据服务器返回的信息，设置 validity.valid = true or flase
+			        	 if(data.success) {
+			         		validity.valid = true;
+						}else {
+							$(validity.field).attr("data-validation-message", data.msg);
+							validity.valid = false;
+						}
+			        	return validity;
+			        }, function() {
+			        	// Ajax 请求失败，根据需要决定验证是否通过，然后返回 validity
+			        	validity.valid = false;
+			          	return validity;
+			        });
+			      }
+				},
+			    onValid: function(validity) {
+			      $(validity.field).closest('.am-form-group').find('small').hide();
+			    },
 
+			    onInValid: function(validity) {
+			      var $field = $(validity.field);
+			      var $alert = $field.next('small');
+			      // 使用自定义的提示信息 或 插件内置的提示信息
+			      var msg = $field.attr('data-validation-message') || this.getValidationMessage(validity);
+			      if (!$alert.length) {
+			        $alert = $('<small class="error-tip"></small>').hide().
+			          appendTo($field.parent());
+			      }
+
+			      $alert.html(msg).show();
+			    },
+			    submit: function() {
+			    	var formValidity = this.isFormValid();
+					
+			        $.when(formValidity).then(function() {
+			          // 验证成功的逻辑
+			          exeFunction();
+			        }, function() {
+			          // 验证失败的逻辑
+			        });
+			    	return false;
+			    }
+			});
+		});
+		
+		//初始化编辑页面信息
+		function initData() {
+			if(!CommonUtil.isEmpty($("#role-id").val())) {
+				CommonUtil.post('/role/get_' + $("#role-id").val(), false, null, function(re) {
+					if(re.success) {
+						$("#role-name").val(re.result.roleName);
+						$("#role-flag").val(re.result.roleFlag);
+						$("#role-flag").attr('disabled', true);
+						$("#role-description").val(re.result.description);
+					} else {
+						parent.SweetAlert(false, re.msg);
+					}
+				}, function(XMLHttpRequest, textStatus, errorThrown) {
+					parent.SweetAlert(false, "数据加载失败");
+				});
+			}
+		}
+		
+		//提交表单方法
+		function exeFunction() {
+			var param = {
+					"id" : $("#role-id").val(),
+					"roleName" : $("#role-name").val(),
+					"roleFlag" : $("#role-flag").val(),
+					"description" : $("#role-description").val()
+			};
+			var url = '/role/create';
+			if(!CommonUtil.isEmpty(param.id)) {//编辑
+				url = '/role/update';
+			}
+			CommonUtil.post(url,false,param,function(re) {
+				if(re.success) {
+					parent.SweetAlert(true, re.msg);
+					jumpUrl('role/list');
+				}else {
+					parent.SweetAlert(false, re.msg);
+				}
+    		}, function(XMLHttpRequest, textStatus, errorThrown) {
+    			parent.SweetAlert(false, CommonUtil.isEmpty(param.id) ? "新增失败" : "编辑失败");
+    		})
+		}
+		
+	</script>
 </body>
 
 </html>

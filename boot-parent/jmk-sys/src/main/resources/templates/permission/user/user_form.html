@@ -104,13 +104,17 @@
 				validate: function(validity) {
 				 // Ajax 验证
 				  if ($(validity.field).is('#user-uesrname')) {
+					  if(CommonUtil.isEmpty($(validity.field).val())) {
+						  validity.valid = false;
+				          return validity; 
+					  }
 			        // 异步操作必须返回 Deferred 对象
 			        return $.ajax({
 			          type:"POST",
 			          url: '/common/v_u',
 			          cache: false,
 			          async: false,
-					  data: {"userId" : $("user-id").val(), "username" : $(validity.field).val()}
+					  data: {"userId" : $("#user-id").val(), "username" : $(validity.field).val()}
 			        }).then(function(data) {
 			        	 // Ajax 请求成功，根据服务器返回的信息，设置 validity.valid = true or flase
 			        	 if(data.success) {
@@ -185,7 +189,6 @@
 		function initData() {
 			if(!CommonUtil.isEmpty($("#user-id").val())) {
 				CommonUtil.post('/user/get_' + $("#user-id").val(), false, null, function(re) {
-					console.log(re.result);
 					if(re.success) {
 						$("#user-uesrname").val(re.result.username);
 						$("#user-uesrname").attr('disabled', true);
