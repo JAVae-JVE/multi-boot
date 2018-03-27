@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amaze UI Admin index Examples</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}">
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    
+    <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.datatables.min.css}" />
+    
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    
+    <style type="text/css">
+    	a span {
+    		margin-right: 1rem;
+    	}
+    </style>
+
+</head>
+
+<body class="theme-white">
+        <!-- 内容区域 -->
+    <div class="tpl-content-wrapper">
+        <div class="row-content am-cf">
+            <div class="row">
+                <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                    <div class="widget am-cf">
+                        <div class="widget-head am-cf">
+                            <div class="widget-title  am-cf">行业列表</div>
+                        </div>
+                        <div class="widget-body  am-fr">
+
+                            <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
+                                <div class="am-form-group">
+                                    <div class="am-btn-toolbar">
+                                        <div class="am-btn-group am-btn-group-xs">
+                                            <button type="button" onclick="jumpUrl('indus/add');" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> 新增</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="am-u-sm-12">
+	                            <div class="am-panel am-panel-default am-u-sm-12">
+								    <div class="am-panel-bd">
+								            <!-- 行业 -->
+								            <ul class="sidebar-nav">
+									             <li class="sidebar-nav-link" th:each="indu : ${indus}">
+									                 <a href="javascript:;" th:class="${not #lists.isEmpty(indu.children)} ? 'sidebar-nav-sub-title'">
+									                     <span th:if="${not #lists.isEmpty(indu.children)}" class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+									                     <span th:unless="${not #lists.isEmpty(indu.children)}" class="am-icon-minus-square-o am-margin-right-sm"></span>
+									                     <span th:text="${indu.indusName}"></span>
+									                     <span th:attr="i_id=${indu.id}" onclick="deleteIndustry(this);" class="am-badge am-badge-danger am-fr">删除</span>
+														 <span th:attr="i_id=${indu.id}" onclick="editIndustry(this);" class="am-badge am-badge-secondary am-fr">编辑</span>
+									                 </a>
+									                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(indu.children)}">
+									                 	<li class="sidebar-nav-link" th:each="child : ${indu.children}">
+									                         <a href="javascript:;" th:class="${not #lists.isEmpty(child.children)} ? 'sidebar-nav-sub-title'">
+											                     <span th:if="${not #lists.isEmpty(child.children)}" class="am-icon-plus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+											                     <span th:unless="${not #lists.isEmpty(child.children)}" class="am-icon-minus-square-o am-margin-right-sm"></span>
+											                     <span th:text="${child.indusName}"></span>
+											                     <span th:attr="i_id=${child.id}" onclick="deleteIndustry(this);" class="am-badge am-badge-danger am-fr">删除</span>
+																 <span th:attr="i_id=${child.id}" onclick="editIndustry(this);" class="am-badge am-badge-secondary am-fr">编辑</span>
+											                 </a>
+											                 <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(child.children)}">
+											                 	<li class="sidebar-nav-link" th:each="child2 : ${child.children}">
+											                         <a href="javascript:;">
+											                            <span class="am-icon-minus-square-o am-margin-right-sm sidebar-nav-sub-ico-plus"></span>
+										                                <span th:text="| ${child2.indusName}|"></span>
+										                                <span th:attr="i_id=${child2.id}" onclick="deleteIndustry(this);" class="am-badge am-badge-danger am-fr">删除</span>
+																		<span th:attr="i_id=${child2.id}" onclick="editIndustry(this);" class="am-badge am-badge-secondary am-fr">编辑</span>
+											                         </a>
+											                     </li>
+											                 </ul>
+									                     </li>
+									                 </ul>
+									             </li>
+									         </ul>
+								           
+								        </div>
+								</div>
+								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/amazeui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/amazeui.datatables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/dataTables.responsive.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/app.js}"></script>
+	<script type="text/javascript">
+	
+		function editIndustry(obj){
+			jumpUrl('indus/edit_' + $(obj).attr('i_id'));
+			event.stopPropagation();
+		}
+		
+		function deleteIndustry(obj) {
+			parent.SweetComfirm("确认删除该行业？", function() {
+				CommonUtil.post('/indus/delete_' + $(obj).attr('i_id'),false,null,function(re) {
+					if(re.success) {
+						parent.SweetAlert(true, re.msg);
+						location.reload();
+					}else {
+						parent.SweetAlert(false, re.msg);
+					}
+	    		}, function(XMLHttpRequest, textStatus, errorThrown) {
+	    			parent.SweetAlert(false, "删除失败");
+	    		})
+				
+				
+			});
+			event.stopPropagation();
+		}
+		
+	</script>
+</body>
+
+</html>

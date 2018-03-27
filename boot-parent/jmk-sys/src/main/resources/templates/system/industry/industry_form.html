@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Amaze UI Admin index Examples</title>
+    <meta name="description" content="这是一个 index 页面">
+    <meta name="keywords" content="index">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <link rel="icon" type="image/png" th:href="@{/i/favicon.png}">
+    <link rel="apple-touch-icon-precomposed" th:href="@{/i/app-icon72x72@2x.png}">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/amazeui.datatables.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body class="theme-white">
+        <!-- 内容区域 -->
+        <div class="tpl-content-wrapper">
+
+            <div class="row-content am-cf">
+
+               
+                <div class="row">
+
+                    <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                        <div class="widget am-cf">
+                            <div class="widget-head am-cf">
+                                <div class="widget-title am-fl" th:text="${indus_id}? '编辑行业' : '新增行业'">新增行业</div>
+                            </div>
+                            <div class="widget-body am-fr">
+
+                                <form id="indus-form" class="am-form tpl-form-border-form tpl-form-border-br">
+                                    <input type="hidden" id="indus-id" th:value="${indus_id}"/>
+                                    <div class="am-form-group">
+                                        <label for="indus-name" class="am-u-sm-3 am-form-label">行业名称<span>*</span></label>
+                                        <div class="am-u-sm-9">
+                                            <input type="text" class="tpl-form-input" id="indus-name" placeholder="输入行业名称（2-20个字符）" data-validation-message="输入行业名称（2-20个字符）" minlength="2" maxlength="20" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="am-form-group">
+                                        <label for="indus-p" class="am-u-sm-3 am-form-label">父级行业<span>*</span></label>
+                                        <div class="am-u-sm-9">
+                                            <select id="indus-p" data-am-selected="{maxHeight: 200}" data-validation-message="选择父级行业" required>
+											</select>
+											<br>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="indus-sort" class="am-u-sm-3 am-form-label">行业顺序<span>&nbsp;&nbsp;</span></label>
+                                        <div class="am-u-sm-9">
+                                            <input type="number" class="tpl-form-input" id="indus-sort" min="1" value="1" placeholder="输入行业顺序（大于1的整数）" data-validation-message="输入行业顺序（大于1的整数）">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <div class="am-u-sm-9 am-u-sm-push-3">
+                                        	<button type="button" class="am-btn am-btn-primary tpl-btn-bg-color-success go_history">取消</button>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/amazeui.min.js}"></script>
+    <script th:src="@{/js/amazeui.datatables.min.js}"></script>
+    <script th:src="@{/js/dataTables.responsive.min.js}"></script>
+    <script th:src="@{/js/app.js}"></script>
+	<script type="text/javascript">
+		$(function(){
+			//初始化编辑页面信息
+			initData();
+			formValidate('indus-form', true, function() {
+				var param = {
+						"id" : $("#indus-id").val(),
+						"indusName" : $("#indus-name").val(),
+						"parentId" : $("#indus-p").val(),
+						"indusSort" : $("#indus-sort").val()	
+				};
+				var url = '/indus/create';
+				if(!CommonUtil.isEmpty(param.id)) {//编辑
+					url = '/indus/update';
+				}
+				CommonUtil.post(url,false,param,function(re) {
+					if(re.success) {
+						parent.SweetAlert(true, re.msg);
+						jumpUrl('indus/list');
+					}else {
+						parent.SweetAlert(false, re.msg);
+					}
+	    		}, function(XMLHttpRequest, textStatus, errorThrown) {
+	    			parent.SweetAlert(false, CommonUtil.isEmpty(param.id) ? "新增失败" : "编辑失败");
+	    		})
+			});
+		});
+		
+		//初始化编辑页面信息
+		function initData() {
+			if(!CommonUtil.isEmpty($("#indus-id").val())) {
+				CommonUtil.post('/indus/get_' + $("#indus-id").val(), false, null, function(re) {
+					if(re.success) {
+						$("#indus-name").val(re.result.indusName);
+						$("#indus-sort").val(re.result.indusSort);
+						initParentIndus(re.result.parentId == null ? '-1' : re.result.parentId);
+					} else {
+						parent.SweetAlert(false, re.msg);
+					}
+				}, function(XMLHttpRequest, textStatus, errorThrown) {
+					parent.SweetAlert(false, "数据加载失败");
+				});
+			} else {
+				//初始化父级行业
+				initParentIndus(null);
+			}
+		}
+		
+		//初始化父级菜单
+		function initParentIndus(selectItem) {
+			var html = '';
+			CommonUtil.post('/indus/parent', false, null, function(re) {
+				if(re.success) {
+					$.each(re.result, function(i, n) {
+						if(n.disabled) {
+							html += '<option value="' + n.id + '" disabled>'+ n.name +'</option>';
+						}else {
+							if(selectItem != null && selectItem == n.id) {
+								html += '<option value="' + n.id + '" selected>'+ n.name +'</option>';
+							}else {
+								html += '<option value="' + n.id + '">'+ n.name +'</option>';
+							}
+						}
+					})
+				}
+    		});
+			$("#indus-p").html(html);  
+		}
+		
+	</script>
+</body>
+
+</html>
