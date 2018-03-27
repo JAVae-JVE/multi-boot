@@ -59,9 +59,9 @@
                             </div>
                             <div class="am-u-sm-12 am-u-md-6 am-u-lg-6">
                                 <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                                    <input type="text" class="am-form-field " placeholder="输入账号或姓名或手机号">
+                                    <input id="search_name_" type="text" th:value="${queryUserRequest.name}" class="am-form-field" placeholder="输入账号或姓名或手机号">
                                     <span class="am-input-group-btn">
-								      <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+								      <button onclick="search()" class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
 								    </span>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@
                                     </thead>
                                     <tbody>
                                     	
-                                        <tr th:each="user,state : ${userList}">
+                                        <tr th:each="user,state : ${page}">
                                         	<!-- <td>
                                         		<label class="am-checkbox am-success">
 												  <input type="checkbox" value="" data-am-ucheck>
@@ -151,7 +151,21 @@
 				});
 			}
 		}
-	
+		//分页跳转方法名固定
+		function jumpPage(obj){
+			$(obj).attr('href', '/user/list?page=' + $(obj).attr('pageindex') + '&name=' + $("#search_name_").val());
+		}
+		
+		$("#search_name_").keydown(function(e) {  
+	        if (e.keyCode == 13) {  
+	        	search();
+	        }  
+	    });  
+		//搜索
+		function search() {
+			location.href = '/user/list?page=0&name=' + $("#search_name_").val();
+		}
+		
 	</script>
 </body>
 

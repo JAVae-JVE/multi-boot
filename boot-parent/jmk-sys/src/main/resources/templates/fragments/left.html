@@ -7,13 +7,13 @@
          <div class="tpl-sidebar-user-panel">
              <div class="tpl-user-panel-slide-toggleable">
                  <div class="tpl-user-panel-profile-picture">
-                     <img th:src="@{/img/user04.png}" alt="">
+                     <img th:src="@{/img/user04.png}" th:attr="url='set/avatar_setting'" onclick="loadContent(this);" alt="">
                  </div>
-                 <span class="user-panel-logged-in-text">
+                 <!-- <span class="user-panel-logged-in-text">
 		            <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
 		          	 小张
-		         </span>
-                <a href="javascript:;" th:attr="url='user/pswd_setting'" onclick="loadContent(this);" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 密码设置</a>
+		         </span> -->
+                <a href="javascript:;" th:attr="url='set/pswd_setting'" onclick="loadContent(this);" class="tpl-user-panel-action-link"> <span class="am-icon-pencil"></span> 密码设置</a>
              </div>
          </div>
 
@@ -21,7 +21,8 @@
          <ul class="sidebar-nav">
              <li class="sidebar-nav-link" th:each="menu : ${menus}">
                  <a href="javascript:;" th:attr="url=${menu.url}" onclick="loadContent(this);" th:class="${not #lists.isEmpty(menu.children)} ? 'sidebar-nav-sub-title'">
-                     <i class="am-icon-home sidebar-nav-link-logo"></i> <span th:text="${menu.name}"></span>
+                     <i class="sidebar-nav-link-logo" th:classappend="${menu.iconClass}"></i>
+                     <span th:text="${menu.name}"></span>
                      <span th:if="${not #lists.isEmpty(menu.children)}" class="am-icon-chevron-down am-fr am-margin-right-sm sidebar-nav-sub-ico"></span>
                  </a>
                  <ul class="sidebar-nav sidebar-nav-sub" th:if="${not #lists.isEmpty(menu.children)}">

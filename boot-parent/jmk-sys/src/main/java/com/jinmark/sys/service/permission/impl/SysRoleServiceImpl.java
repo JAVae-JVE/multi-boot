@@ -6,15 +6,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.jinmark.core.bean.Response;
 import com.jinmark.core.bean.Selected;
+import com.jinmark.sys.domain.SysPermission;
 import com.jinmark.sys.domain.SysRole;
 import com.jinmark.sys.domain.SysRolePermission;
 import com.jinmark.sys.repository.SysRolePermissionRepository;
@@ -131,6 +129,32 @@ public class SysRoleServiceImpl implements SysRoleServiceI {
 			res.setSuccess(true);
 			res.setMsg("删除成功");
 		}
+		return res;
+	}
+
+	@Transactional
+	@Override
+	public Response roleGrant(String roleId, List<String> perm) {
+		Response res = new Response();
+		
+		if(perm == null || perm.size() == 0) {
+			res.setSuccess(false);
+			res.setMsg("未选择授权项");
+			return res;
+		}
+		
+		List<SysRolePermission> list = new ArrayList<SysRolePermission>();
+		for (String string : perm) {
+			list.add(new SysRolePermission(new SysPermission(string), new SysRole(roleId)));
+		}
+		
+		//1.删除当前角色-权限
+		rolePermissionRepository.deleteByRoleId(roleId);
+		//2.保存当前角色新权限
+		
+		rolePermissionRepository.save(list);
+		res.setSuccess(true);
+		res.setMsg("授权成功");
 		return res;
 	}
 

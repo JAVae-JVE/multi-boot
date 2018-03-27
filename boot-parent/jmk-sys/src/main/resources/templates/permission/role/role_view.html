@@ -80,7 +80,7 @@
                                                         <i class="am-icon-pencil"></i> 编辑
                                                     </a>
                                                     
-                                                    <a href="javascript:;" th:onclick="|jumpUrl('role/grant_page_${role.id}');|" class="tpl-table-black-operation-case">
+                                                    <a href="javascript:;" th:onclick="|jumpUrl('role/grant_page_${role.id}_${role.roleName}');|" class="tpl-table-black-operation-case">
                                                     	<i class="am-icon-archive"></i> 授权
                                                     </a>
                                                     <a href="javascript:;" th:onclick="|deleteRole('${role.id}');|" class="tpl-table-black-operation-del">

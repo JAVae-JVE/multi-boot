@@ -1,9 +1,7 @@
 package com.jinmark.sys.controller.permission;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.jinmark.core.bean.Pages;
 import com.jinmark.core.bean.Response;
 import com.jinmark.sys.service.permission.SysRoleServiceI;
@@ -50,7 +47,7 @@ public class UserController {
 	 */
 	@RequestMapping("/list")
 	public String userList(QueryUserRequest queryUserRequest, Pages pages, Model model) {
-		model.addAttribute("userList", userService.queryUserList(queryUserRequest, pages));
+		model.addAttribute("page", userService.queryUserList(queryUserRequest, pages));
 		return "permission/user/user_view";
 	}
 	
@@ -171,16 +168,5 @@ public class UserController {
 	public Response userDelete(@RequestParam("ids[]") List<String> ids) {
 		return userService.deleteSysUser(ids);
 	}
-	/**
-	 * 
-	 * @Title pswdSetting
-	 * @Description TODO(密码设置页面) 
-	 * @return
-	 * @return String  返回类型 
-	 * @throws
-	 */
-	@RequestMapping("/pswd_setting")
-	public String pswdSetting() {
-		return "permission/user/pswd_setting";
-	}
+	
 }

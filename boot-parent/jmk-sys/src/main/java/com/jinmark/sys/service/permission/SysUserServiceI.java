@@ -2,7 +2,7 @@ package com.jinmark.sys.service.permission;
 
 import java.util.List;
 import java.util.Set;
-
+import org.springframework.data.domain.Page;
 import com.jinmark.core.bean.Pages;
 import com.jinmark.core.bean.Response;
 import com.jinmark.sys.domain.SysUser;
@@ -51,10 +51,10 @@ public interface SysUserServiceI {
 	 * @param queryUserRequest
 	 * @param pages
 	 * @return
-	 * @return List<SysUser>  返回类型 
+	 * @return Page<SysUser>  返回类型 
 	 * @throws
 	 */
-	List<SysUser> queryUserList(QueryUserRequest queryUserRequest, Pages pages);
+	Page<SysUser> queryUserList(QueryUserRequest queryUserRequest, Pages pages);
 	/**
 	 * 
 	 * @Title saveSysUser

@@ -15,6 +15,7 @@ import com.jinmark.core.Constants.ResType;
 import com.jinmark.core.bean.Response;
 import com.jinmark.core.bean.Selected;
 import com.jinmark.sys.domain.SysPermission;
+import com.jinmark.sys.domain.SysRolePermission;
 import com.jinmark.sys.repository.SysPermissionRepository;
 import com.jinmark.sys.repository.SysRolePermissionRepository;
 import com.jinmark.sys.service.permission.SysPermissionServiceI;
@@ -198,6 +199,71 @@ public class SysPermissionServiceImpl implements SysPermissionServiceI {
 			
 		}
 		return res;
+	}
+
+	@Override
+	public List<Selected> findSysPermissionsByRoleId(String roleId) {
+		//该角色已有权限
+		List<SysRolePermission> hadPerms = rolePermissionRepository.findSysRolePermissionByRoleId(roleId);
+		//跟权限
+		List<SysPermission> list = permissionRepository.findByAvailableAndParentIdIsNullOrderByPriorityAsc(true);
+		List<Selected> re = new ArrayList<Selected>();
+		
+		
+		if(list != null && list.size() > 0) {
+			for (SysPermission sysPermission : list) {
+				Selected selected = new Selected(sysPermission.getId(), sysPermission.getName(), false, sysPermission.getIconClass());
+				findSelectedChildren(selected, hadPerms);
+				re.add(selected);
+			}
+		}
+		return re;
+	}
+
+	/**
+	 * 
+	 * @Title findSelectedChildren
+	 * @Description TODO(递归获取子权限) 
+	 * @param selected
+	 * @param hadPerms
+	 * @return void  返回类型 
+	 * @throws
+	 */
+	private void findSelectedChildren(Selected selected, List<SysRolePermission> hadPerms) {
+		isSelected(selected, hadPerms);
+		List<SysPermission> children = permissionRepository.findByAvailableAndParentIdOrderByPriorityAsc(true, selected.getId());
+		List<Selected> selectedChildren = new ArrayList<Selected>();
+		if(children != null && children.size() > 0) {
+			for (SysPermission sysPermission : children) {
+				Selected s = new Selected(sysPermission.getId(), sysPermission.getName(), false, sysPermission.getIconClass());
+				selectedChildren.add(s);
+				findSelectedChildren(s, hadPerms);
+			}
+			
+			selected.setChildren(selectedChildren);
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @Title isSelected
+	 * @Description TODO(当前权限是否已选中) 
+	 * @param selected
+	 * @param hadPerms
+	 * @return
+	 * @return Selected  返回类型 
+	 * @throws
+	 */
+	private Selected isSelected(Selected selected, List<SysRolePermission> hadPerms) {
+		for (SysRolePermission sysRolePermission : hadPerms) {
+			if(selected.getId().equals(sysRolePermission.getSysPermission().getId())) {
+				selected.setSelected(true);
+				return selected;
+			}
+		}
+		
+		return selected;
 	}
 
 }

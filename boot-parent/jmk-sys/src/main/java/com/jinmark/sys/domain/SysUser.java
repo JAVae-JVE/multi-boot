@@ -36,6 +36,7 @@ public class SysUser implements java.io.Serializable {
 	private String salt;
 	private boolean locked;
 	private String mobile;
+	private String avatar;
 	private Date createtime;
 	private Set<SysUserRole> sysUserRoles = new HashSet<SysUserRole>(0);
 
@@ -167,6 +168,18 @@ public class SysUser implements java.io.Serializable {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+
+	
+	@Column(name = "avatar")
+	public String getAvatar() {
+		return avatar;
+	}
+
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "createtime", nullable = false, length = 19)

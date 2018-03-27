@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.jinmark.core.bean.Response;
+import com.jinmark.core.bean.Selected;
 import com.jinmark.sys.domain.SysPermission;
 
 
@@ -75,4 +76,14 @@ public interface SysPermissionServiceI {
 	 * @throws
 	 */
 	Response deleteSysPermission(String id);
+	/**
+	 * 
+	 * @Title findSysPermissionsByRoleId
+	 * @Description TODO(根据角色id获取权限) 
+	 * @param roleId
+	 * @return
+	 * @return List<Selected>  返回类型 
+	 * @throws
+	 */
+	List<Selected> findSysPermissionsByRoleId(String roleId);
 }

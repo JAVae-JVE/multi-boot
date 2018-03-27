@@ -315,6 +315,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   width: auto;
   height: 82px;
   vertical-align: middle;
+  cursor: pointer;
 }
 .tpl-user-panel-status-icon {
   margin-right: 2px;

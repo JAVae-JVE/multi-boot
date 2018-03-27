@@ -12,10 +12,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jinmark.core.bean.Response;
 import com.jinmark.sys.domain.SysRole;
+import com.jinmark.sys.service.permission.SysPermissionServiceI;
 import com.jinmark.sys.service.permission.SysRoleServiceI;
 import com.jinmark.sys.vo.permission.RoleRequest;
 
@@ -32,6 +34,9 @@ public class RoleController {
 	
 	@Autowired
 	private SysRoleServiceI roleService;
+	
+	@Autowired
+	private SysPermissionServiceI permissionService;
 	/**
 	 * 
 	 * @Title roleList
@@ -160,7 +165,7 @@ public class RoleController {
 	 */
 	@RequestMapping("/delete_{id}")
 	@ResponseBody
-	public Response permDelete(@PathVariable("id") String id) {
+	public Response roleDelete(@PathVariable("id") String id) {
 		return roleService.deleteRole(id);
 	}
 	
@@ -174,8 +179,27 @@ public class RoleController {
 	 * @return String  返回类型 
 	 * @throws
 	 */
-	@RequestMapping("/grant_page_{id}")
-	public String grantPage(@PathVariable("id") String id, Model model) {
+	@RequestMapping("/grant_page_{roleId}_{roleName}")
+	public String grantPage(@PathVariable("roleId") String roleId, @PathVariable("roleName") String roleName, Model model) {
+		model.addAttribute("roleId", roleId);
+		model.addAttribute("roleName", roleName);
+		model.addAttribute("menus", permissionService.findSysPermissionsByRoleId(roleId));
 		return "permission/role/role_grant";
+	}
+	
+	/**
+	 * 
+	 * @Title roleGrant
+	 * @Description TODO(为角色授权) 
+	 * @param roleId
+	 * @param perm
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	@RequestMapping("/grant")
+	@ResponseBody
+	public Response roleGrant(String roleId, @RequestParam("perm[]") List<String> perm) {
+		return roleService.roleGrant(roleId, perm);
 	}
 }

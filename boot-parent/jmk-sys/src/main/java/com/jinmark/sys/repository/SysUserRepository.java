@@ -2,6 +2,7 @@ package com.jinmark.sys.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -26,11 +27,11 @@ public interface SysUserRepository extends JpaRepository<SysUser, String> {
 	 * @param queryUserRequest
 	 * @param pageable
 	 * @return
-	 * @return List<SysUser>  返回类型 
+	 * @return Page<SysUser>  返回类型 
 	 * @throws
 	 */
-	@Query("SELECT o FROM SysUser o WHERE o.username LIKE :#{#queryUserRequest.name} OR o.name LIKE :#{#queryUserRequest.name} OR o.mobile LIKE :#{#queryUserRequest.name}")
-	List<SysUser> findUserList(@Param("queryUserRequest") QueryUserRequest queryUserRequest, Pageable pageable);
+	@Query("SELECT o FROM SysUser o WHERE o.username LIKE %:#{#queryUserRequest.name}% OR o.name LIKE %:#{#queryUserRequest.name}% OR o.mobile LIKE %:#{#queryUserRequest.name}%")
+	Page<SysUser> findUserList(@Param("queryUserRequest") QueryUserRequest queryUserRequest, Pageable pageable);
 	/**
 	 * 
 	 * @Title findByMobile

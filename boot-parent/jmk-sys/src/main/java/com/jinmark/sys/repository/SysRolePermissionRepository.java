@@ -1,5 +1,7 @@
 package com.jinmark.sys.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,4 +33,16 @@ public interface SysRolePermissionRepository extends JpaRepository<SysRolePermis
 	@Modifying
 	@Query("delete from SysRolePermission o where o.sysRole.id = :roleId")
 	void deleteByRoleId(@Param("roleId") String roleId);
+	
+	/**
+	 * 
+	 * @Title findSysRolePermissionByRoleId
+	 * @Description TODO(根据角色id获取对应的权限) 
+	 * @param roleId
+	 * @return
+	 * @return List<SysRolePermission>  返回类型 
+	 * @throws
+	 */
+	@Query("from SysRolePermission o where o.sysRole.id = :roleId")
+	List<SysRolePermission> findSysRolePermissionByRoleId(@Param("roleId") String roleId);
 }

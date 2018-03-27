@@ -69,4 +69,15 @@ public interface SysRoleServiceI {
 	 * @throws
 	 */
 	Response deleteRole(String id);
+	/**
+	 * 
+	 * @Title roleGrant
+	 * @Description TODO(为角色授权) 
+	 * @param roleId
+	 * @param perm
+	 * @return
+	 * @return Response  返回类型 
+	 * @throws
+	 */
+	Response roleGrant(String roleId, List<String> perm);
 }

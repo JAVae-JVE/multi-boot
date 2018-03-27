@@ -1,5 +1,7 @@
 package com.jinmark.core.bean;
 
+import java.util.List;
+
 /**
  * 
  * @author QC
@@ -20,8 +22,17 @@ public class Selected {
 	 * 是否已选中
 	 */
 	private boolean selected;
-	
+	/**
+	 * 是否禁用
+	 */
 	private boolean disabled;
+	
+	/**
+	 * 图标class
+	 */
+	private String iconClass;
+	
+	private List<Selected> children;
 	
 	public Selected() {
 		super();
@@ -36,6 +47,15 @@ public class Selected {
 	}
 
 	
+	
+	public Selected(String id, String name, boolean selected, String iconClass) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.selected = selected;
+		this.iconClass = iconClass;
+	}
+
 	public Selected(String id, String name, boolean selected, boolean disabled) {
 		this(id, name, selected);
 		this.disabled = disabled;
@@ -66,6 +86,22 @@ public class Selected {
 
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
+	}
+
+	public List<Selected> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Selected> children) {
+		this.children = children;
+	}
+
+	public String getIconClass() {
+		return iconClass;
+	}
+
+	public void setIconClass(String iconClass) {
+		this.iconClass = iconClass;
 	}
 	
 	

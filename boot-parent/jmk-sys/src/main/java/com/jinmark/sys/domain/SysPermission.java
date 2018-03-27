@@ -161,7 +161,7 @@ public class SysPermission implements java.io.Serializable {
 		this.permission = permission;
 	}
 
-	@Column(name = "parentId")
+	@Column(name = "parent_id")
 	public String getParentId() {
 		return this.parentId;
 	}

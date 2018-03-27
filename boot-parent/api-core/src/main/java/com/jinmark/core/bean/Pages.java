@@ -6,22 +6,13 @@ package com.jinmark.core.bean;
  */
 public class Pages {
 	/**
-	 * 页大小
+	 * 每页大小
 	 */
 	private int size = 10;
 	/**
-	 * 当前页
+	 * 当前页索引
 	 */
-	private int page = 1;
-	/**
-	 * 总条数
-	 */
-	private int total;
-	/**
-	 * 总页数
-	 */
-	private int totalPage;
-	
+	private int page = 0;
 	public Pages() {
 		super();
 	}
@@ -41,22 +32,5 @@ public class Pages {
 	public void setPage(int page) {
 		this.page = page;
 	}
-
-	public int getTotal() {
-		return total;
-	}
-
-	public void setTotal(int total) {
-		this.total = total;
-	}
-
-	public int getTotalPage() {
-		return totalPage;
-	}
-
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
-	}
-	
 	
 }
